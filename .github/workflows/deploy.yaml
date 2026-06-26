@@ -12,6 +12,7 @@ permissions:
 
 jobs:
   build:
+    if: github.repository == 'Ker-of-S/JoTS'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout your repository using git
@@ -31,4 +32,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
