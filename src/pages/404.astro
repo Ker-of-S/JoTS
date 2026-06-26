@@ -1,0 +1,229 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="404 - Fragment Lost | JoTS">
+
+
+    <main class="error-container">
+        <div class="error-content">
+            <h1 class="glitch" data-text="404">404</h1>
+            
+            <div class="narrative-box">
+                <h2>Space-Time Fragment Lost</h2>
+                <div class="terminal-feed">
+                    <p><span class="prompt"></span> [MIRAI] SYSTEM ALERT...</p>
+                    <p><span class="prompt"></span> The theoretical framework of this page has collapsed.</p>
+                    <p class="blinking-cursor"><span class="prompt"></span> Awaiting manual override_</p>
+                </div>
+            </div>
+
+            <div class="action-links">
+                <a href="/" class="btn-primary">Initiate Surface Protocol</a>
+                <a href="/archive" class="btn-secondary">Search Known Archives</a>
+            </div>
+        </div>
+    </main>
+
+</Layout>
+
+<style>
+    .error-container {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 5%;
+        background-color: var(--bg-color, white);
+        overflow: hidden;
+    }
+
+    .error-content {
+        text-align: center;
+        max-width: 800px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    /* G eff */
+    .glitch {
+        font-size: 8rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        position: relative;
+        color: var(--primary-blue, --blue3);
+        font-family: 'Courier New', Courier, monospace;
+        letter-spacing: -5px;
+        margin: 0;
+        line-height: 1;
+        /* RGB eff */
+        text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75),
+                    -0.025em -0.05em 0 rgba(0, 255, 0, 0.75),
+                     0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+        animation: glitch 500ms infinite;
+    }
+
+    .glitch::before,
+    .glitch::after {
+        content: attr(data-text);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--bg-color, --clear1);
+    }
+
+    .glitch::before {
+        left: 2px;
+        text-shadow: -2px 0 red;
+        clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+        animation: glitch-anim 2.5s infinite linear alternate-reverse;
+    }
+
+    .glitch::after {
+        left: -2px;
+        text-shadow: -2px 0 var(--accent-cyan, --blue1);
+        clip-path: polygon(0 80%, 100% 20%, 100% 100%, 0 100%);
+        animation: glitch-anim2 3s infinite linear alternate-reverse;
+    }
+
+    @keyframes glitch {
+        0% { text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75), -0.05em -0.025em 0 rgba(0, 255, 0, 0.75), -0.025em 0.05em 0 rgba(0, 0, 255, 0.75); }
+        14% { text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75), -0.05em -0.025em 0 rgba(0, 255, 0, 0.75), -0.025em 0.05em 0 rgba(0, 0, 255, 0.75); }
+        15% { text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75), 0.025em 0.025em 0 rgba(0, 255, 0, 0.75), -0.05em -0.05em 0 rgba(0, 0, 255, 0.75); }
+        49% { text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75), 0.025em 0.025em 0 rgba(0, 255, 0, 0.75), -0.05em -0.05em 0 rgba(0, 0, 255, 0.75); }
+        50% { text-shadow: 0.025em 0.05em 0 rgba(255, 0, 0, 0.75), 0.05em 0 0 rgba(0, 255, 0, 0.75), 0 -0.05em 0 rgba(0, 0, 255, 0.75); }
+        99% { text-shadow: 0.025em 0.05em 0 rgba(255, 0, 0, 0.75), 0.05em 0 0 rgba(0, 255, 0, 0.75), 0 -0.05em 0 rgba(0, 0, 255, 0.75); }
+        100% { text-shadow: -0.025em 0 0 rgba(255, 0, 0, 0.75), -0.025em -0.025em 0 rgba(0, 255, 0, 0.75), -0.025em -0.05em 0 rgba(0, 0, 255, 0.75); }
+    }
+
+    @keyframes glitch-anim {
+        0% { clip-path: polygon(0 2%, 100% 2%, 100% 5%, 0 5%); }
+        20% { clip-path: polygon(0 15%, 100% 15%, 100% 15%, 0 15%); }
+        40% { clip-path: polygon(0 10%, 100% 10%, 100% 20%, 0 20%); }
+        60% { clip-path: polygon(0 1%, 100% 1%, 100% 2%, 0 2%); }
+        80% { clip-path: polygon(0 33%, 100% 33%, 100% 33%, 0 33%); }
+        100% { clip-path: polygon(0 44%, 100% 44%, 100% 44%, 0 44%); }
+    }
+
+    @keyframes glitch-anim2 {
+        0% { clip-path: polygon(0 25%, 100% 25%, 100% 30%, 0 30%); }
+        20% { clip-path: polygon(0 3%, 100% 3%, 100% 3%, 0 3%); }
+        40% { clip-path: polygon(0 5%, 100% 5%, 100% 20%, 0 20%); }
+        60% { clip-path: polygon(0 2%, 100% 2%, 100% 2%, 0 2%); }
+        80% { clip-path: polygon(0 22%, 100% 22%, 100% 22%, 0 22%); }
+        100% { clip-path: polygon(0 30%, 100% 30%, 100% 30%, 0 30%); }
+    }
+
+    /* terminal style */
+    .narrative-box h2 {
+        font-family: 'Georgia', serif;
+        color: var(--primary-blue, #0d253f);
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .terminal-feed {
+        background-color: black;
+        color: var(--blue2);
+        font-family: 'Courier New', Courier, monospace;
+        padding: 1.5rem;
+        text-align: left;
+        border-left: 4px solid var(--red1);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+    .terminal-feed p {
+        margin-bottom: 0.5rem;
+    }
+
+    .terminal-feed p:last-child {
+        margin-bottom: 0;
+    }
+
+    .prompt {
+        color: var(--red1);
+        font-weight: bold;
+        margin-right: 0.5rem;
+    }
+
+    .blinking-cursor::after {
+        content: '█';
+        animation: blink 1s step-start infinite;
+        color: var(--accent-cyan);
+        margin-left: 5px;
+    }
+
+    @keyframes blink {
+        50% { opacity: 0; }
+    }
+
+    /* Responsive & mq */
+    .action-links {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 1rem;
+    }
+
+    .btn-primary, .btn-secondary {
+        padding: 0.8rem 1.5rem;
+        font-weight: bold;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    .btn-primary {
+        background-color: var(--primary-blue, --blue3);
+        color: white;
+        border: 2px solid var(--primary-blue, --blue3);
+    }
+
+    .btn-primary:hover {
+        background-color: var(--accent-cyan, --blue1);
+        border-color: var(--accent-cyan, --blue1);
+        color: var(--primary-blue, --blue3);
+    }
+
+    .btn-secondary {
+        background-color: transparent;
+        color: var(--primary-blue, --blue3);
+        border: 2px solid var(--primary-blue, --blue3);
+    }
+
+    .btn-secondary:hover {
+        background-color: rgba(13, 37, 63, 0.05);
+    }
+
+    @media (max-width: 768px) {
+        .glitch {
+            font-size: 5rem;
+        }
+
+        .narrative-box h2 {
+            font-size: 1.5rem;
+        }
+
+        .terminal-feed {
+            font-size: 0.85rem;
+            padding: 1rem;
+        }
+
+        .action-links {
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .btn-primary, .btn-secondary {
+            width: 100%;
+        }
+    }
+</style>

@@ -1,0 +1,245 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="About Us | Journal of Terminal Sciences">
+    <Navbar />
+
+    <header class="about-hero">
+        <div class="hero-content">
+            <h1>About the Journal</h1>
+            <p>Insert description here.</p>
+        </div>
+    </header>
+
+    <main class="about-container">
+        
+        <section class="about-section">
+            <h2>Our Mission</h2>
+            <div class="content-block">
+                <p>The <strong>Journal of Terminal Sciences (JoTS)</strong> was established with a singular, unyielding directive: blah blah blah.</p>
+                <p>Our mission is blah blah blah.</p>
+            </div>
+        </section>
+
+        <section class="about-section">
+            <h2>The Terminal Sciences Foundation</h2>
+            <div class="content-block">
+                <p>Founded in the aftermath of the first recorded <em>Logoscide</em> event, the Foundation serves as the independent governing body of the Journal. We are a coalition of theoretical physicists, logic-architects, and archivist-engineers dedicated to maintaining structural integrity in a universe prone to logical collapse.</p>
+                <ul>
+                    <li><strong>Neutrality:</strong> We remain unaffiliated with any specific temporal faction.</li>
+                    <li><strong>Preservation:</strong> Data is archived redundantly across multiple isolated logical domains.</li>
+                    <li><strong>Vigilance:</strong> Continuous monitoring of theoretical boundaries to prevent cascade failures.</li>
+                </ul>
+            </div>
+        </section>
+
+
+        <hr class="academic-divider" />
+
+        <section class="anomaly-section" aria-hidden="true">
+            <div class="glitch-wrapper">
+                <p class="sys-warning">// SYS_ERR: UNAUTHORIZED INJECTION DETECTED // ORIGIN: UNKNOWN // </p>
+                <a href="/author" class="btn-glitch" data-text="[ FOURTH WALL BREACH DETECTED ]">
+                    <span class="glitch-text">[ FOURTH WALL BREACH DETECTED ]</span>
+                    <span class="glitch-subtext">&gt;&gt; INITIALIZE_AUTHOR_CONSTRUCT &lt;&lt;</span>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <Footer />
+</Layout>
+
+<style>
+    .about-hero {
+        background-color: var(--primary-blue);
+        padding: 8rem 5% 4rem 5%;
+        border-bottom: 4px solid var(--accent-cyan);
+        text-align: center;
+    }
+
+    .hero-content {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .about-hero h1 {
+        color: white;
+        font-family: 'Georgia', serif;
+        font-size: 3rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .about-hero p {
+        color: var(--blue2, #cfd8dc);
+        font-size: 1.1rem;
+    }
+
+    .about-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 4rem 5%;
+    }
+
+    .about-section {
+        margin-bottom: 4rem;
+    }
+
+    .about-section h2 {
+        font-family: 'Georgia', serif;
+        color: var(--primary-blue);
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+        border-bottom: 1px solid var(--border-color, #e5e5e5);
+        padding-bottom: 0.5rem;
+    }
+
+    .content-block {
+        font-size: 1.1rem;
+        color: var(--text-main, #333);
+        line-height: 1.8;
+    }
+
+    .content-block p {
+        margin-bottom: 1.5rem;
+    }
+
+    .content-block ul {
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+        padding-left: 1.5rem;
+        background-color: var(--clear1, #f4f7f6);
+        padding: 1.5rem 1.5rem 1.5rem 2.5rem;
+        border-left: 4px solid var(--primary-blue);
+    }
+
+    .content-block li {
+        margin-bottom: 0.8rem;
+    }
+
+    .academic-divider {
+        border: 0;
+        height: 1px;
+        background-image: linear-gradient(to right, transparent, var(--border-color, #ccc), transparent);
+        margin: 4rem 0;
+    }
+
+    .anomaly-section {
+        margin-top: 2rem;
+        padding: 2rem 0;
+        display: flex;
+        justify-content: center;
+    }
+
+    .glitch-wrapper {
+        text-align: center;
+        background: #050505;
+        padding: 2rem;
+        border: 1px solid #333;
+        position: relative;
+    }
+
+    .sys-warning {
+        color: #ff4d4d;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 0.8rem;
+        margin-bottom: 1.5rem;
+        opacity: 0.8;
+        letter-spacing: 1px;
+    }
+
+    .btn-glitch {
+        position: relative;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        background: transparent;
+        color: white;
+        text-decoration: none;
+        padding: 1rem 2rem;
+        border: 2px dashed #ff4d4d;
+        font-family: 'Courier New', Courier, monospace;
+        transition: all 0.2s;
+        z-index: 1;
+    }
+
+    .glitch-text {
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: #fff;
+        text-shadow: 2px 0 #ff4d4d, -2px 0 #4db8ff;
+        margin-bottom: 0.5rem;
+        position: relative;
+    }
+
+    .glitch-subtext {
+        font-size: 0.85rem;
+        color: #ff4d4d;
+        opacity: 0.8;
+    }
+
+    /* Hover effect */
+    .btn-glitch:hover {
+        background: rgba(255, 77, 77, 0.1);
+        border-style: solid;
+        box-shadow: 0 0 20px rgba(255, 77, 77, 0.4);
+    }
+
+    .btn-glitch:hover .glitch-text {
+        animation: text-jitter 0.2s infinite;
+    }
+
+    .glitch-wrapper {
+        animation: container-jitter 4s infinite;
+    }
+
+    @keyframes container-jitter {
+        0%, 96%, 98%, 100% { transform: translateX(0); }
+        97% { transform: translateX(-2px) skewX(2deg); }
+        99% { transform: translateX(2px) skewX(-2deg); }
+    }
+
+    @keyframes text-jitter {
+        0% { transform: translate(0); text-shadow: 2px 0 #ff4d4d, -2px 0 #4db8ff; }
+        20% { transform: translate(-2px, 1px); text-shadow: -2px 0 #ff4d4d, 2px 0 #4db8ff; }
+        40% { transform: translate(2px, -1px); text-shadow: 2px 0 #ff4d4d, -2px 0 #4db8ff; }
+        60% { transform: translate(-1px, 2px); text-shadow: -2px 0 #ff4d4d, 2px 0 #4db8ff; }
+        80% { transform: translate(1px, -2px); text-shadow: 2px 0 #ff4d4d, -2px 0 #4db8ff; }
+        100% { transform: translate(0); text-shadow: 2px 0 #ff4d4d, -2px 0 #4db8ff; }
+    }
+
+    @media (max-width: 768px) {
+        .about-hero {
+            padding: 6rem 5% 3rem 5%;
+        }
+
+        .about-hero h1 {
+            font-size: 2.2rem;
+        }
+
+        .about-container {
+            padding: 2rem 5%;
+        }
+
+        .about-section h2 {
+            font-size: 1.6rem;
+        }
+
+        .content-block {
+            font-size: 1.05rem;
+        }
+
+        .glitch-text {
+            font-size: 1rem;
+        }
+
+        .btn-glitch {
+            padding: 0.8rem 1rem;
+            width: 100%;
+        }
+    }
+</style>

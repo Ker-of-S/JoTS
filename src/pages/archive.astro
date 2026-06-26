@@ -1,0 +1,361 @@
+---
+// src/pages/archive.astro
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import { getCollection } from 'astro:content';
+
+const allPublications = await getCollection('publications');
+
+const validArchive = allPublications.filter(pub => pub.data.status !== 'recycled');
+
+const recycleBin = allPublications.filter(pub => pub.data.status === 'recycled');
+
+const groupedPublications = validArchive.reduce((acc, pub) => {
+    const category = pub.data.category;
+    if (!acc[category]) acc[category] = [];
+    acc[category].push(pub);
+    return acc;
+}, {} as Record<string, any[]>);
+
+const categories = Object.keys(groupedPublications).sort();
+
+const volumes = [
+    { num: 1, year: "ℶ▌", title: "New Landscapes", link: "#vol1" },
+    { num: 2, year: "ℶ▌", title: "The Theoretical Space", link: "#vol2" },
+    { num: 3, year: "ℶ▌", title: "The Great Unification", link: "#vol3" },
+];
+
+const chronicles = [
+    {
+        id: "chronicle-1",
+        vol: "Vol. I",
+        title: "Mindscape",
+        description: "A look inside the facilities of the main federations, their history and their origin.",
+        image: "/img/chronicle1.svg",
+        link: "/chronicles/vol-1"
+    },
+    {
+        id: "chronicle-2",
+        vol: "Vol. II",
+        title: "Logoscide",
+        description: "The events that marked a turning point for the journal, before it was consumed by its own implausibility.",
+        image: "/img/chronicle2.svg",
+        link: "/chronicles/vol-2"
+    },
+    {
+        id: "chronicle-3",
+        vol: "Vol. III",
+        title: "Cosmic Slaugterhouse",
+        description: "M.I.R.A.I.'s last breath, its last predictions of some universe, written in the form of an anthology.",
+        image: "/img/chronicle3.svg",
+        link: "/chronicles/vol-3"
+    }
+];
+---
+
+<Layout title="Archive | Journal of Terminal Sciences">
+    <Navbar />
+
+    <header class="archive-header">
+        <div class="header-content">
+            <h1>General Archive</h1>
+            <p>Access complete volumes, categorized preserves, and quarantined data.</p>
+        </div>
+    </header>
+
+    <main class="archive-main">
+        
+        <section class="archive-section volumes-section">
+            <div class="section-title">
+                <h2>I. Complete Volumes</h2>
+                <p>Consolidated issues containing chronologically grouped publications.</p>
+            </div>
+            <div class="volumes-grid">
+                {volumes.map(vol => (
+                    <a href={vol.link} class="volume-card">
+                        <div class="vol-number">Vol. {vol.num}</div>
+                        <div class="vol-details">
+                            <h3>{vol.title}</h3>
+                            <span>Year: {vol.year}</span>
+                        </div>
+                        <div class="vol-icon"><img src="/proves.svg" alt="Volume Icon" width="164px"/></div>
+                    </a>
+                ))}
+            </div>
+        </section>
+
+        <section class="archive-section chronicles-section">
+            <div class="section-title">
+                <h2>II. Chronicles of Terminal Sciences</h2>
+                <p>[Information Injection Detected] The Story Behind the Origin, Development, and End of JoTS.</p>
+            </div>
+            
+            <div class="chronicles-container">
+                {chronicles.map((chronicle, index) => (
+                    <article class="chronicle-row">
+                        <div class="chronicle-logo">
+                            {chronicle.image ? (
+                                <img src={chronicle.image} alt={`Logo de ${chronicle.title}`} loading="lazy" />
+                            ) : (
+                                <div class="placeholder-logo">{chronicle.vol}</div>
+                            )}
+                        </div>
+                        
+                        <div class="chronicle-info">
+                            <div class="chronicle-header">
+                                <span class="vol-tag">{chronicle.vol}</span>
+                                <h3>{chronicle.title}</h3>
+                            </div>
+                            <p>{chronicle.description}</p>
+                            <a href={chronicle.link} class="btn-read-chronicle">Access Chronicle &rarr;</a>
+                        </div>
+                    </article>
+                ))}
+            </div>
+        </section>
+
+        <section class="archive-section recycle-section">
+            <div class="section-title danger-title">
+                <h2>III. Recycle Bin / Deprecated Data</h2>
+                <p>WARNING: Papers stored here contain rejected hypotheses, anomalous logic loops, or retracted findings. Consult at your own risk.</p>
+            </div>
+            
+            <div class="recycle-content">
+                {recycleBin.length === 0 ? (
+                    <p class="empty-recycle">No quarantined files detected.</p>
+                ) : (
+                    <ul class="recycled-list">
+                        {recycleBin.map((pub) => (
+                            <li class="recycled-item">
+                                <a href={`/publications/${pub.id}`} class="recycled-link">[CORRUPTED] {pub.data.title}</a>
+                                <span class="recycled-author">Logged by: {pub.data.authors}</span>
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </div>
+        </section>
+
+    </main>
+
+    <div class="secret-container">
+        <a href="/database" class="secret-link">sys.db_access()</a>
+    </div>
+
+    <Footer />
+</Layout>
+
+<style>
+    ul {
+        margin: 0;
+        padding: 0;
+    }
+
+    .archive-header {
+        background-color: var(--primary-blue);
+        padding: 8rem 5% 4rem 5%;
+        border-bottom: 4px solid var(--accent-cyan);
+        text-align: center;
+    }
+    .header-content h1 { color: white; font-family: 'Georgia', serif; font-size: 3rem; margin-bottom: 0.5rem; }
+    .header-content p { color: var(--blue2); font-size: 1.1rem;}
+    
+    .archive-main { padding: 0 5% 4rem 5%; background-color: var(--bg-color); }
+    .archive-section { max-width: 1000px; margin: 0 auto; padding-top: 4rem; }
+    
+    .section-title { margin-bottom: 2rem; border-bottom: 2px solid #ccc; padding-bottom: 1rem; }
+    .section-title h2 { font-family: 'Georgia', serif; color: var(--primary-blue); font-size: 2rem; margin-bottom: 0.5rem; line-height: 1.2; }
+    .section-title p { color: var(--text-muted); font-size: 1.1rem; }
+
+    .volumes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+    .volume-card { display: flex; align-items: center; background: white; padding: 1.5rem; text-decoration: none; color: inherit; box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: transform 0.3s, border-color 0.3s; border-left: 4px solid transparent; }
+    .volume-card:hover { transform: translateY(-5px); border-left-color: var(--accent-cyan); }
+    .vol-number { font-weight: bold; font-size: 1.2rem; color: var(--accent-cyan); margin-right: 1.5rem; }
+    .vol-details h3 { font-size: 1.1rem; color: var(--blue3); margin-bottom: 0.2rem; }
+    .vol-details span { font-size: 0.9rem; color: #888; }
+    .vol-icon { margin-left: auto; font-size: 2rem; opacity: 0.2; }
+
+    .category-group { margin-bottom: 3rem; }
+    .category-title { font-family: 'Georgia', serif; color: var(--primary-blue)f; font-size: 1.5rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 10px; }
+    .marker { width: 10px; height: 10px; background-color: var(--accent-cyan); flex-shrink: 0; }
+    
+    .article-list { list-style: none; background: white; border: 1px solid #eee; overflow: hidden; }
+    .article-item { padding: 1.2rem 1.5rem; border-bottom: 1px solid #eee; display: flex; flex-direction: column; gap: 0.5rem; }
+    .article-item:last-child { border-bottom: none; }
+    
+    .article-link { text-decoration: none; color: var(--primary-blue); font-size: 1.1rem; font-weight: bold; line-height: 1.4; transition: color 0.2s; }
+    .article-link:hover { color: var(--accent-cyan); }
+    .authors { color: var(--text-muted); font-style: italic; font-size: 0.9rem; }
+
+    .recycle-section { margin-top: 2rem; }
+    .danger-title { border-bottom-color: #8b0000; }
+    .danger-title h2 { color: #8b0000; }
+    .danger-title p { color: #a52a2a; font-weight: bold; }
+    
+    .recycle-content { background-color: #1a1a1a; padding: 2rem; border: 1px solid var(--text-main); overflow-x: auto; }
+    .recycled-list { list-style: none; }
+    .recycled-item { padding: 1rem 0; border-bottom: 1px dashed #444; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .recycled-item:first-child { padding-top: 0; }
+    .recycled-item:last-child { border-bottom: none; padding-bottom: 0; }
+    
+    .recycled-link { text-decoration: none; color: #ff4d4d; font-family: monospace; font-size: 1.05rem; transition: all 0.3s; word-break: break-word; flex: 1; min-width: 250px; }
+    .recycled-link:hover { color: #ff9999; text-shadow: 0 0 8px rgba(255, 77, 77, 0.5); }
+    .recycled-author { color: #888; font-family: monospace; font-size: 0.9rem; opacity: 0.7; white-space: nowrap; }
+
+    .empty-state, .empty-recycle { padding: 2rem; text-align: center; font-size: 1.1rem; }
+    .empty-state { background: white; color: var(--text-muted); border: 1px dashed #ccc; }
+    .empty-recycle { color: var(--gray1); font-family: monospace; border: 1px dashed #444; }
+
+    .secret-container { text-align: right; padding: 0 5% 1rem; background-color: #f4f7f6; }
+    .secret-link { font-family: monospace; color: #cfd8dc; font-size: 0.8rem; text-decoration: none; opacity: 0.1; transition: opacity 0.5s, color 0.5s; cursor: pointer; }
+    .secret-link:hover { opacity: 1; color: var(--accent-cyan); }
+
+    .chronicles-container {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .chronicle-row {
+        display: flex;
+        align-items: center;
+        gap: 2.5rem;
+        background: white;
+        padding: 2rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        border: 1px solid var(--border-color, #e5e5e5);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .chronicle-row:hover {
+        transform: translateX(5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        border-left: 4px solid var(--accent-cyan, --blue2);
+    }
+
+    .chronicle-logo {
+        flex: 0 0 160px;
+        height: 160px;
+        overflow: hidden;
+        background-color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #eee;
+    }
+
+    .chronicle-logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain; 
+        padding: 0.5rem; 
+    }
+
+    .placeholder-logo {
+        font-family: 'Courier New', Courier, monospace;
+        font-weight: bold;
+        font-size: 1.5rem;
+        color: var(--primary-blue);
+        opacity: 0.5;
+    }
+
+    .chronicle-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .chronicle-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 0.8rem;
+        flex-wrap: wrap;
+    }
+
+    .vol-tag {
+        background-color: var(--blue3);
+        color: white;
+        padding: 0.2rem 0.8rem;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 0.85rem;
+        font-weight: bold;
+    }
+
+    .chronicle-info h3 {
+        font-family: 'Georgia', serif;
+        font-size: 1.8rem;
+        color: var(--blue3);
+        margin: 0;
+        line-height: 1.2;
+    }
+
+    .chronicle-info p {
+        font-size: 1.05rem;
+        color: var(--gray1);
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+        max-width: 700px;
+    }
+
+    .btn-read-chronicle {
+        background-color: transparent;
+        color: var(--primary-blue);
+        border: 2px solid var(--clear1);
+        padding: 0.6rem 1.2rem;
+        font-weight: bold;
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: all 0.3s;
+        font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    .btn-read-chronicle:hover {
+        border-color: var(--primary-blue);
+        background-color: rgba(13, 37, 64, 0.05);
+    }
+
+    @media (max-width: 768px) {
+        .chronicle-row {
+            gap: 1.2rem;
+            padding: 1.2rem;
+            align-items: flex-start;
+        }
+
+        .chronicle-logo {
+            flex: 0 0 90px;
+            height: 90px;
+        }
+
+        .chronicle-info h3 {
+            font-size: 1.3rem;
+        }
+
+        .chronicle-info p {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .vol-tag {
+            font-size: 0.75rem;
+            padding: 0.2rem 0.5rem;
+        }
+
+        .btn-read-chronicle {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+        }
+    }
+
+    /* Responsive & mq */
+    @media (max-width: 768px) {
+        .archive-header { padding: 6rem 5% 3rem 5%; }
+        .header-content h1 { font-size: 2.2rem; }
+        .section-title h2 { font-size: 1.6rem; }
+        .article-item { padding: 1rem; }
+        .recycled-item { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+    }
+</style>

@@ -1,0 +1,260 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="LaTeX Template | Journal of Terminal Sciences">
+    <Navbar />
+
+    <header class="template-hero">
+        <div class="hero-content">
+            <h1>LaTeX Template</h1>
+            <p>Standardized formatting.</p>
+        </div>
+    </header>
+
+    <main class="template-container">
+        <section class="instructions-panel">
+            <div class="info-block">
+                <h3>Usage Instructions</h3>
+                <p>To maintain the typographical and aesthetic standards of the Journal of Terminal Sciences, all manuscripts must be typeset using this exact LaTeX configuration.</p>
+                <ul>
+                    <li>Copy the code block below and save it as a <code>.tex</code> file on your local machine, or paste it directly into an Overleaf project.</li>
+                    <li>Ensure your final submission is compiled into a PDF document before attaching the link in the <a href="/submit">Submission Portal</a>.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="code-section">
+            <div class="terminal-window">
+                <div class="terminal-header">
+                    <div class="terminal-title">jts_template_vIota6.tex</div>
+                    <button id="copyBtn" class="btn-copy">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        <span>Copy Code</span>
+                    </button>
+                </div>
+                <div class="terminal-body">
+                    <pre is:raw><code id="latexCode">
+                        
+                    It's empty :c
+                    
+                    </code></pre>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <Footer />
+</Layout>
+
+<style>
+    .template-hero {
+        background-color: var(--primary-blue);
+        padding: 8rem 5% 4rem 5%;
+        border-bottom: 4px solid var(--accent-cyan);
+        text-align: center;
+    }
+
+    .hero-content {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .template-hero h1 {
+        color: white;
+        font-family: 'Georgia', serif;
+        font-size: 3rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .template-hero p {
+        color: var(--blue2);
+        font-size: 1.1rem;
+    }
+
+    .template-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 4rem 5%;
+    }
+
+    .instructions-panel {
+        margin-bottom: 3rem;
+    }
+
+    .info-block {
+        background-color: white;
+        padding: 2rem;
+        border: 1px solid var(--border-color, --clear1);
+        border-left: 5px solid var(--blue3);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    }
+
+    .info-block h3 {
+        color: var(--primary-blue);
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .info-block p {
+        color: var(--gray1);
+        font-size: 1.05rem;
+        margin-bottom: 1rem;
+        line-height: 1.6;
+    }
+
+    .info-block ul {
+        color: #444;
+        padding-left: 1.5rem;
+        line-height: 1.7;
+    }
+
+    .info-block li {
+        margin-bottom: 0.5rem;
+    }
+
+    .info-block a {
+        color: var(--accent-cyan);
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    .info-block a:hover {
+        text-decoration: underline;
+    }
+
+    code {
+        background-color: var(--bg-color);
+        padding: 0.2rem 0.4rem;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 0.9em;
+        color: var(--primary-blue);
+        border: 1px solid #ddd;
+    }
+
+    .terminal-window {
+        background-color: #1a1b46;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        border: 1px solid var(--text-main);
+    }
+
+    .terminal-header {
+        background-color: #0f1017;
+        padding: 1rem 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #2a2b3d;
+    }
+
+    .terminal-title {
+        color: var(--blue1);
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 0.9rem;
+    }
+
+    .btn-copy {
+        background-color: rgba(47, 131, 158, 0.1);
+        color: var(--accent-cyan);
+        border: 1px solid rgba(47, 131, 158, 0.3);
+        padding: 0.5rem 1rem;
+        font-family: system-ui, sans-serif;
+        font-weight: bold;
+        font-size: 0.85rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.2s;
+    }
+
+    .btn-copy:hover {
+        background-color: var(--accent-cyan);
+        color: var(--primary-blue);
+    }
+
+    .btn-copy.success {
+        background-color: #9ece6a;
+        color: #1a1b26;
+        border-color: #9ece6a;
+    }
+
+    .terminal-body {
+        padding: 1.5rem;
+        overflow-x: auto;
+    }
+
+    .terminal-body::-webkit-scrollbar {
+        height: 8px;
+    }
+
+    .terminal-body::-webkit-scrollbar-track {
+        background: #1a1b26;
+    }
+
+    .terminal-body::-webkit-scrollbar-thumb {
+        background: var(--accent-cyan);
+    }
+
+    pre {
+        margin: 0;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        color: var(--clear1);
+    }
+
+    @media (max-width: 768px) {
+        .template-hero {
+            padding: 6rem 5% 3rem 5%;
+        }
+
+        .template-hero h1 {
+            font-size: 2.2rem;
+        }
+
+        .terminal-header {
+            flex-direction: column;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('astro:page-load', () => {
+        const copyBtn = document.getElementById('copyBtn');
+        const codeElement = document.getElementById('latexCode');
+
+        if (copyBtn && codeElement) {
+            copyBtn.addEventListener('click', async () => {
+                try {
+                    const textToCopy = codeElement.innerText || codeElement.textContent;
+                    await navigator.clipboard.writeText(textToCopy);
+                    
+                    const originalHTML = copyBtn.innerHTML;
+                    copyBtn.classList.add('success');
+                    copyBtn.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>Copied!</span>
+                    `;
+                    
+                    setTimeout(() => {
+                        copyBtn.classList.remove('success');
+                        copyBtn.innerHTML = originalHTML;
+                    }, 2000);
+
+                } catch (err) {
+                    console.error('Failed to copy text: ', err);
+                    alert("Unable to copy to clipboard. Please copy manually.");
+                }
+            });
+        }
+    });
+</script>

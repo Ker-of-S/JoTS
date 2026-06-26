@@ -1,0 +1,249 @@
+---
+// src/components/Footer.astro
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+    <div class="footer-container">
+        
+        <div class="footer-col brand-col">
+            <a href="/" class="footer-logo">
+                J<span>o</span>TS
+            </a>
+            <p class="journal-desc">
+                Preserving knowledge at all scales, in all spaces and times, and all logics.
+            </p>
+            <span class="issn">TdSSN: 3684-731X (Online)</span>
+        </div>
+
+        <div class="footer-col">
+            <h3>Explore</h3>
+            <ul class="footer-links">
+                <li><a href="#publications">Current Issue</a></li>
+                <li><a href="#archive">Past Volumes</a></li>
+                <li><a href="#board">Editorial Board</a></li>
+                <li><a href="#about">About the Journal</a></li>
+            </ul>
+        </div>
+
+        <!-- Column 3: For Authors -->
+        <div class="footer-col">
+            <h3>For Authors</h3>
+            <ul class="footer-links">
+                <li><a href="#submit">Submit a Manuscript</a></li>
+                <li><a href="/guidelines">Author Guidelines</a></li>
+                <li><a href="#ethics">Publication Ethics</a></li>
+                <li><a href="#peer-review">Peer Review Process</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <h3>Community</h3>
+            <p class="newsletter-desc">Is there a community that talks about these things? I don't know.</p>
+            <div class="social-links">
+                <a href="#Reddit">Reddit</a>
+                <a href="#GitHub wikis">GH wikis</a>
+                <a href="#Fandom">Fandom</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        <div class="bottom-content">
+            <p>&copy; {currentYear} Journal of Terminal Sciences. All articles are published under a <a href="#cc-by" class="license-link">Creative Commons CC-BY 4.0</a> license.</p>
+            <ul class="legal-links">
+                <li><a href="#privacy">Privacy Policy</a></li>
+                <li><a href="#terms">Terms of Service</a></li>
+            </ul>
+        </div>
+    </div>
+</footer>
+
+<style>
+    .site-footer {
+        background-color: var(--primary-blue); 
+        color: var(--blue2);
+        padding: 4rem 5% 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 3rem;
+        padding-bottom: 3rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .footer-col h3 {
+        color: white;
+        font-size: 1.1rem;
+        margin-bottom: 1.5rem;
+        font-family: 'Georgia', serif;
+        letter-spacing: 0.5px;
+    }
+
+    .footer-logo {
+        font-family: 'Georgia', serif;
+        font-size: 1.4rem;
+        font-weight: bold;
+        color: white;
+        text-decoration: none;
+        letter-spacing: 2px;
+        display: inline-block;
+        margin-bottom: 1rem;
+    }
+
+    .footer-logo span {
+        color: var(--accent-cyan);
+        font-weight: 300;
+    }
+
+    .journal-desc {
+        font-size: 0.9rem;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+        color: var(--gray1);
+    }
+
+    .issn {
+        font-size: 0.85rem;
+        font-weight: bold;
+        color: var(--accent-cyan);
+    }
+
+    .footer-links {
+        list-style: none;
+        padding: 0;
+    }
+
+    .footer-links li {
+        margin-bottom: 0.8rem;
+    }
+
+    .footer-links a {
+        color: var(--gray1);
+        text-decoration: none;
+        font-size: 0.95rem;
+        transition: color 0.3s ease, padding-left 0.3s ease;
+    }
+
+    .footer-links a:hover {
+        color: var(--accent-cyan);
+        padding-left: 5px; 
+    }
+
+    .newsletter-desc {
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+        color: var(--gray1);
+    }
+
+    .newsletter-form {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .newsletter-form input {
+        flex: 1;
+        padding: 0.6rem 1rem;
+        border: 1px solid rgba(255,255,255,0.2);
+        background: rgba(255,255,255,0.05);
+        color: white;
+        border-radius: 4px;
+        outline: none;
+        transition: border-color 0.3s;
+    }
+
+    .newsletter-form input:focus {
+        border-color: var(--accent-cyan);
+    }
+
+    .newsletter-form button {
+        padding: 0.6rem 1.2rem;
+        background-color: var(--accent-cyan);
+        color: var(--primary-blue);
+        border: none;
+        border-radius: 4px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .newsletter-form button:hover {
+        background-color: var(--accent-cyan);
+    }
+
+    .social-links {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .social-links a {
+        color: white;
+        text-decoration: none;
+        font-size: 0.85rem;
+        background: rgba(255,255,255,0.1);
+        padding: 0.4rem 0.8rem;
+        border-radius: 20px;
+        transition: background 0.3s;
+    }
+
+    .social-links a:hover {
+        background: var(--accent-cyan);
+        color: var(--primary-blue);
+    }
+
+    .footer-bottom {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1.5rem 0;
+    }
+
+    .bottom-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+        font-size: 0.85rem;
+        color: var(--gray1);
+    }
+
+    .license-link {
+        color: var(--clear1);
+        text-decoration: underline;
+    }
+
+    .license-link:hover {
+        color: var(--accent-cyan);
+    }
+
+    .legal-links {
+        list-style: none;
+        display: flex;
+        gap: 1.5rem;
+    }
+
+    .legal-links a {
+        color: var(--gray1);
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    .legal-links a:hover {
+        color: white;
+    }
+
+    @media (max-width: 768px) {
+        .bottom-content {
+            flex-direction: column;
+            text-align: center;
+        }
+    }
+</style>

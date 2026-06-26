@@ -1,0 +1,534 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="Tupper | SYSTEM OVERRIDE">
+    <Navbar />
+
+    <main class="tupper-root">
+        <header class="tupper-header">
+            <div class="glitch-title" is:raw>$$The~\sigma andbo\kappa\zeta$$</div>
+            <p class="subtitle">// DIMENSIONS: 64x42</p>
+            <p class="lore-text">
+                Text
+            </p>
+        </header>
+
+        <section class="tool-section">
+            <div class="section-header">
+                <h2>Explorer</h2>
+                <p>Text.</p>
+            </div>
+
+            <div class="explorer-container">
+                <div class="grid-wrapper">
+                    <div id="explorer-grid" class="tupper-grid view-only">
+                    </div>
+                </div>
+
+                <div class="explorer-controls">
+                    <div class="k-input-group">
+                        <label for="input-k-explore">// ACTUAL K COORDINATE:</label>
+                        <textarea id="input-k-explore" rows="4" placeholder="Introduce un entero K masivo..."></textarea>
+                    </div>
+
+                    <div class="nav-buttons">
+                        <button id="btn-chunk-up" class="btn-nav" title="Subir en el Eje Y">
+                            <span class="arrow">▲</span> Y + 42
+                        </button>
+                        <button id="btn-decode" class="btn-primary">RENDER CHUNK</button>
+                        <button id="btn-chunk-down" class="btn-nav" title="Bajar en el Eje Y">
+                            <span class="arrow">▼</span> Y - 42
+                        </button>
+                    </div>
+                    
+                    <div class="terminal-logs">
+                        <p id="explorer-log">EXPLORER</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="academic-divider" />
+
+        <section class="tool-section">
+            <div class="section-header">
+                <h2>COORDINATE EXTRACTOR</h2>
+                <p>Draw anything you want</p>
+            </div>
+
+            <div class="architect-container">
+                <div class="grid-section">
+                    <div class="grid-wrapper">
+                        <div id="architect-grid" class="tupper-grid">
+                        </div>
+                    </div>
+                    <div class="grid-actions">
+                        <button id="btn-clear" class="btn-micro">[ ] CLEAR CANVAS</button>
+                        <button id="btn-encode" class="btn-action">SUBMIT</button>
+                    </div>
+                </div>
+
+                <div class="k-output-group">
+                    <label for="output-k-architect">// K COORDINATE:</label>
+                    <textarea id="output-k-architect" rows="8" readonly placeholder="INSERT TEXT"></textarea>
+                    
+                    <div class="terminal-logs">
+                        <p id="architect-log">Text</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <Footer />
+</Layout>
+
+<style>
+    :global(body) {
+        background-color: #050505 !important;
+        color: #c0caf5;
+    }
+
+    .tupper-root {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 4rem 5%;
+        font-family: 'Courier New', Courier, monospace;
+    }
+
+    .tupper-header {
+        margin-top: 2rem;
+        margin-bottom: 3rem;
+        border-bottom: 1px solid #333;
+        padding-bottom: 2rem;
+    }
+
+    .glitch-title {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #fff;
+        text-shadow: 2px 0 var(--red1), -2px 0 white;
+        margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+        color: white;
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .lore-text {
+        font-family: system-ui, sans-serif;
+        color: var(--blue1);
+        max-width: 800px;
+        line-height: 1.6;
+    }
+
+    .academic-divider {
+        border: 0;
+        height: 1px;
+        background-image: linear-gradient(to right, transparent, #333, transparent);
+        margin: 4rem 0;
+    }
+
+    .tool-section {
+        margin-bottom: 4rem;
+    }
+
+    .section-header h2 {
+        color: var(--red1);
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .section-header p {
+        font-family: system-ui, sans-serif;
+        color: #888;
+        margin-bottom: 2rem;
+    }
+
+    .grid-wrapper {
+        background: black;
+        padding: 1rem;
+        border: 1px solid #333;
+        border-radius: 4px;
+        box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+        margin-bottom: 1rem;
+    }
+
+    .tupper-grid {
+        display: grid;
+        grid-template-columns: repeat(64, 1fr);
+        width: 100%;
+        aspect-ratio: 64 / 42; 
+        background: #111;
+        border: 1px solid #222;
+        touch-action: none; 
+    }
+
+    .tupper-grid.view-only :global(.t-cell) {
+        cursor: default;
+    }
+    .tupper-grid.view-only :global(.t-cell:hover) {
+        background: transparent;
+    }
+    .tupper-grid.view-only :global(.t-cell.active:hover) {
+        background: white;
+    }
+
+    :global(.t-cell) {
+        border-right: 1px solid rgba(255,255,255,0.03);
+        border-bottom: 1px solid rgba(255,255,255,0.03);
+        background: transparent;
+        cursor: crosshair;
+        user-select: none;
+    }
+
+    :global(.t-cell:hover) {
+        background: rgba(77, 184, 255, 0.2);
+    }
+
+    :global(.t-cell.active) {
+        background: white;
+        box-shadow: 0 0 5px white;
+    }
+
+    .explorer-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .explorer-controls {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+        gap: 1.5rem;
+        align-items: start;
+        background: black;
+        padding: 1.5rem;
+        border: 1px solid #333;
+        border-radius: 4px;
+    }
+
+    .architect-container {
+        display: grid;
+        grid-template-columns: 1.5fr 1fr;
+        gap: 2rem;
+        align-items: start;
+    }
+
+    .grid-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: space-between;
+    }
+
+    label {
+        display: block;
+        color: var(--red1);
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+
+    textarea {
+        width: 100%;
+        background: #050505;
+        border: 1px solid #444;
+        color: #9ece6a; 
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 0.85rem;
+        padding: 1rem;
+        border-radius: 4px;
+        resize: vertical;
+        word-break: break-all;
+    }
+
+    textarea:focus {
+        outline: none;
+        border-color: white;
+        box-shadow: 0 0 10px rgba(77, 184, 255, 0.2);
+    }
+
+    .nav-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .btn-primary, .btn-action, .btn-micro, .btn-nav {
+        font-family: 'Courier New', Courier, monospace;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.2s;
+        border-radius: 3px;
+        text-align: center;
+    }
+
+    .btn-primary {
+        background: rgba(77, 184, 255, 0.1);
+        color: white;
+        border: 1px solid rgba(77, 184, 255, 0.5);
+        padding: 1rem;
+    }
+    .btn-primary:hover { background: #4db8ff; color: #050505; }
+
+    .btn-nav {
+        background: black;
+        color: #a9b1d6;
+        border: 1px solid #333;
+        padding: 0.5rem;
+        font-size: 0.85rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    .btn-nav:hover { background: #333; color: #fff; }
+    .btn-nav .arrow { color: white; }
+
+    .btn-action {
+        flex: 1;
+        background: rgba(158, 206, 106, 0.1);
+        color: #9ece6a;
+        border: 1px solid rgba(158, 206, 106, 0.5);
+        padding: 0.8rem;
+    }
+    .btn-action:hover { background: #9ece6a; color: #050505; }
+
+    .btn-micro {
+        background: transparent;
+        color: #888;
+        border: 1px solid #444;
+        padding: 0.8rem;
+    }
+    .btn-micro:hover { color: #fff; border-color: #fff; }
+
+    .terminal-logs {
+        background: black;
+        padding: 1rem;
+        border-left: 3px solid var(--red1);
+        font-size: 0.8rem;
+        color: #888;
+        height: 100%;
+    }
+
+    /* --- Responsive --- */
+    @media (max-width: 992px) {
+        .explorer-controls, .architect-container {
+            grid-template-columns: 1fr;
+        }
+    }
+    @media (max-width: 768px) {
+        .tupper-root { padding: 6rem 5% 2rem 5%; }
+        .glitch-title { font-size: 1.8rem; }
+    }
+</style>
+
+<script>
+    function initTupperAdvanced() {
+        const maybeRenderMath = (window as any).renderMathInElement;
+        if (typeof maybeRenderMath === 'function') {
+            ['.math-explanation', '.glitch-title'].forEach(sel => {
+                const el = document.querySelector(sel);
+                if (el) maybeRenderMath(el, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            });
+        }
+
+        const W = 64;
+        const H = 42;
+        
+        const gridExplorer = document.getElementById('explorer-grid');
+        const gridArchitect = document.getElementById('architect-grid');
+        const inputKExplore = document.getElementById('input-k-explore');
+        const outputKArchitect = document.getElementById('output-k-architect');
+        const expLog = document.getElementById('explorer-log');
+        const archLog = document.getElementById('architect-log');
+        
+        if (!gridExplorer || !gridArchitect || !inputKExplore || !outputKArchitect) return;
+
+        gridExplorer.innerHTML = '';
+        gridArchitect.innerHTML = '';
+
+        for (let y = H - 1; y >= 0; y--) {
+            for (let x = 0; x < W; x++) {
+                let expCell = document.createElement('div');
+                expCell.className = 't-cell';
+                expCell.dataset.x = x.toString();
+                expCell.dataset.y = y.toString();
+                gridExplorer.appendChild(expCell);
+
+                let archCell = document.createElement('div');
+                archCell.className = 't-cell';
+                archCell.dataset.x = x.toString();
+                archCell.dataset.y = y.toString();
+                gridArchitect.appendChild(archCell);
+            }
+        }
+
+        let isDrawing = false;
+        let drawMode = true; 
+
+        const attachDrawingEvents = (grid) => {
+            grid.addEventListener('mousedown', (e) => {
+                const target = e.target;
+                if (target && target.classList && target.classList.contains('t-cell')) {
+                    isDrawing = true;
+                    drawMode = !target.classList.contains('active');
+                    target.classList.toggle('active', drawMode);
+                }
+            });
+
+            grid.addEventListener('mouseover', (e) => {
+                const target = e.target;
+                if (isDrawing && target && target.classList && target.classList.contains('t-cell')) {
+                    target.classList.toggle('active', drawMode);
+                }
+            });
+
+            window.addEventListener('mouseup', () => { isDrawing = false; });
+
+            grid.addEventListener('touchmove', (e) => {
+                if (!isDrawing) return;
+                e.preventDefault(); 
+                const touch = e.touches[0];
+                const el = document.elementFromPoint(touch.clientX, touch.clientY);
+                if (el && el.classList && el.classList.contains('t-cell') && el.parentNode === grid) {
+                    el.classList.toggle('active', drawMode);
+                }
+            }, { passive: false });
+
+            grid.addEventListener('touchstart', (e) => {
+                const target = e.target;
+                if (target && target.classList && target.classList.contains('t-cell')) {
+                    isDrawing = true;
+                    drawMode = !target.classList.contains('active');
+                    target.classList.toggle('active', drawMode);
+                }
+            }, { passive: false });
+
+            window.addEventListener('touchend', () => { isDrawing = false; });
+        };
+
+        attachDrawingEvents(gridArchitect);
+
+        const decodeKToGrid = async (kString) => {
+            if (!kString) {
+                expLog.innerText = "> ERROR.";
+                return;
+            }
+
+            expLog.innerText = "> DECODING K";
+            
+            gridExplorer.querySelectorAll('.t-cell').forEach(c => c.classList.remove('active'));
+
+            try {
+                let K = BigInt(kString);
+                let N = K / BigInt(H);
+                
+                let binStr = N.toString(2).padStart(W * H, '0');
+
+                for (let x = 0; x < W; x++) {
+                    for (let y = 0; y < H; y++) {
+                        let index = x * H + y; 
+                        let charIdx = binStr.length - 1 - index;
+                        let bit = charIdx >= 0 ? binStr[charIdx] : '0';
+                        
+                        let cell = gridExplorer.querySelector(`.t-cell[data-x="${x}"][data-y="${y}"]`);
+                        if(bit === '1' && cell) cell.classList.add('active');
+                    }
+                    await new Promise(r => setTimeout(r, 5)); 
+                }
+
+                expLog.innerText = "> CHUNK RENDERED";
+            } catch (err) {
+                expLog.innerText = "> ERROR: INVALID K.";
+            }
+        };
+
+        document.getElementById('btn-decode').addEventListener('click', () => {
+            decodeKToGrid(inputKExplore.value.trim());
+        });
+
+        const shiftY = (direction) => {
+            let kStr = inputKExplore.value.trim();
+            if (!kStr) return;
+            try {
+                let K = BigInt(kStr);
+                if (direction === 'up') {
+                    K = K + BigInt(H);
+                } else {
+                    K = K - BigInt(H);
+                    if (K < 0n) K = 0n;
+                }
+                inputKExplore.value = K.toString();
+                decodeKToGrid(K.toString());
+            } catch (e) {
+                expLog.innerText = "> ERROR";
+            }
+        };
+
+        document.getElementById('btn-chunk-up').addEventListener('click', () => shiftY('up'));
+        document.getElementById('btn-chunk-down').addEventListener('click', () => shiftY('down'));
+
+        document.getElementById('btn-encode').addEventListener('click', () => {
+            archLog.innerText = "> CODING";
+            
+            let binStr = "";
+            for (let x = W - 1; x >= 0; x--) {
+                for (let y = H - 1; y >= 0; y--) {
+                    let cell = gridArchitect.querySelector(`.t-cell[data-x="${x}"][data-y="${y}"]`);
+                    binStr += (cell && cell.classList.contains('active')) ? '1' : '0';
+                }
+            }
+
+            if (binStr === "") binStr = "0";
+            
+            try {
+                let N = BigInt("0b" + binStr);
+                let K = N * BigInt(H);
+                outputKArchitect.value = K.toString();
+                archLog.innerText = "> COMPLETE";
+            } catch (err) {
+                archLog.innerText = "> ERROR: VERY LARGE NUMBER.";
+            }
+        });
+
+        document.getElementById('btn-clear').addEventListener('click', () => {
+            gridArchitect.querySelectorAll('.t-cell').forEach(c => c.classList.remove('active'));
+            outputKArchitect.value = "";
+            archLog.innerText = "> CLEAR CANVAS.";
+        });
+
+        const loadInitialK = () => {
+            let initialBin = "0".repeat(W * H).split('');
+            for (let i = 0; i < 20; i++) {
+                let x = 10 + i;
+                let y = 10 + i;
+                let idx = (W - 1 - x) * H + (H - 1 - y);
+                if(initialBin[idx] !== undefined) initialBin[idx] = '1';
+                
+                let idx2 = (W - 1 - (30 - i)) * H + (H - 1 - y);
+                if(initialBin[idx2] !== undefined) initialBin[idx2] = '1';
+            }
+            
+            let initialN = BigInt("0b" + initialBin.join(''));
+            let initialK = initialN * BigInt(H);
+            
+            inputKExplore.value = initialK.toString();
+            decodeKToGrid(initialK.toString());
+        };
+
+        setTimeout(loadInitialK, 100);
+    }
+
+    initTupperAdvanced();
+</script>

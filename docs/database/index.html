@@ -1,0 +1,138 @@
+<!DOCTYPE html><html lang="en"><head><meta name="description" content="Preserving knowledge across all scales, all spaces and times, and all logics."><meta property="og:title" content="sys.db_access() // UNIDENTIFIED CONNECTION"><meta property="og:description" content="Preserving knowledge across all scales, all spaces and times, and all logics."><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"><script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script><meta charset="UTF-8"><meta name="description" content="Journal of Terminal Sciences"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v6.1.8"><title>sys.db_access() // UNIDENTIFIED CONNECTION</title><style>:root{--primary-blue: #121C35;--accent-cyan: #2F839E;--bg-color: #F6F8FB;--text-main: #333;--text-muted: #666;--blue1: #91B9E2;--gray1: #6F6D81;--blue2: #99B2D2;--clear1: #FEFFFA;--blue3: #1C2139;--red1: #832B26}*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,Tahoma,Geneva,Verdana,sans-serif}html{scroll-behavior:smooth}body{background-color:var(--bg-color);color:var(--text-main);line-height:1.6}
+</style>
+<link rel="stylesheet" href="/_astro/database@_@astro.Ba9Xa0FP.css"></head> <body>  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"> <div class="crt-overlay" data-astro-cid-nxxgkeug></div> <main class="terminal-container" data-astro-cid-nxxgkeug> <header class="terminal-header" data-astro-cid-nxxgkeug> <h1 data-astro-cid-nxxgkeug>[MIRAI] TERMINAL SCIENCES CORE DATABASE v-Iota.6</h1> <p class="status" data-astro-cid-nxxgkeug>RAW DATABASE OF THE MACHINE OF INTEGRATED RATIONALITY FOR ABSOLUTE INFERENCE</p> <div class="nav-links" data-astro-cid-nxxgkeug><a href="/" data-astro-cid-nxxgkeug>[ Return to Surface ]</a></div> </header> <div class="terminal-controls" data-astro-cid-nxxgkeug> <div class="control-panel" data-astro-cid-nxxgkeug> <h3 data-astro-cid-nxxgkeug>[ BROWSE BY COORDINATE ]</h3> <div class="inputs" data-astro-cid-nxxgkeug> <input type="text" id="inp-sector" placeholder="Sector (e.g. 0x4F)" value="0x4F" data-astro-cid-nxxgkeug> <input type="number" id="inp-node" placeholder="Node (1-4)" min="1" max="4" value="1" data-astro-cid-nxxgkeug> <input type="number" id="inp-cluster" placeholder="Cluster (1-5)" min="1" max="5" value="1" data-astro-cid-nxxgkeug> <input type="number" id="inp-frag" placeholder="Fragment (1-32)" min="1" max="32" value="1" data-astro-cid-nxxgkeug> <button id="btn-browse" data-astro-cid-nxxgkeug>EXECUTE // BROWSE</button> </div> </div> <div class="control-panel" data-astro-cid-nxxgkeug> <h3 data-astro-cid-nxxgkeug>[ SEARCH EXACT STRING ]</h3> <div class="inputs" data-astro-cid-nxxgkeug> <input type="text" id="inp-search" placeholder="Enter text to locate in the database..." data-astro-cid-nxxgkeug> <button id="btn-search" data-astro-cid-nxxgkeug>EXECUTE // SEARCH</button> </div> </div> </div> <div class="output-wrapper" data-astro-cid-nxxgkeug> <div class="output-meta" id="output-meta" data-astro-cid-nxxgkeug>
+AWAITING INPUT...
+</div> <div class="latex-controls" data-astro-cid-nxxgkeug> <div class="syntax-guide" data-astro-cid-nxxgkeug> <strong data-astro-cid-nxxgkeug>// SYNTAX GUIDE:</strong><br data-astro-cid-nxxgkeug>
+INLINE MATH: <span class="accent" data-astro-cid-nxxgkeug>$[ ... ]$</span> | 
+            BLOCK MATH: <span class="accent" data-astro-cid-nxxgkeug>$$[ ... ]$$</span> | 
+            UNICODE: <span class="accent" data-astro-cid-nxxgkeug>_(\u&#123;&num;&num;&num;&num;&#125;_)</span> </div> <button id="btn-toggle-render" class="btn-toggle active" data-astro-cid-nxxgkeug>[V] RENDER LATEX</button> </div> <div class="terminal-output" id="terminal-output" data-astro-cid-nxxgkeug>
+// System idle. Please enter coordinates or a search query to pull fragments from the infinite structure.
+</div> </div> </main> </body></html> <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.9/purify.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script> <script type="module">
+    import init, { explore_coordinates, search_database } from '/wasm/mirai_engine.js';
+
+    let isRenderEnabled = true;
+    let currentRawText = ""; 
+
+    const btnBrowse = document.getElementById('btn-browse');
+    const btnSearch = document.getElementById('btn-search');
+    const btnToggleRender = document.getElementById('btn-toggle-render');
+    const outMeta = document.getElementById('output-meta');
+    const outData = document.getElementById('terminal-output');
+
+    if (btnToggleRender) {
+        btnToggleRender.addEventListener('click', () => {
+            isRenderEnabled = !isRenderEnabled;
+            btnToggleRender.innerText = isRenderEnabled ? '[V] RENDER LATEX' : '[ ] RAW TEXT';
+            btnToggleRender.classList.toggle('active', isRenderEnabled);
+            
+            if (currentRawText) {
+                applyRendering(currentRawText);
+            }
+        });
+    }
+
+    function parseCustomUnicode(text) {
+        return text.replace(/_\(\\u\{([0-9a-fA-F]+)\}_\)/g, (match, hex) => {
+            try {
+                return String.fromCodePoint(parseInt(hex, 16));
+            } catch (e) {
+                return match; 
+            }
+        });
+    }
+
+    function applyRendering(text) {
+        const escapedText = text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        
+        const cleanText = DOMPurify.sanitize(escapedText);
+
+        if (!isRenderEnabled) {
+            outData.innerHTML = `<div class="formatted-output">${cleanText}</div>`;
+            return;
+        }
+
+        let processedText = parseCustomUnicode(cleanText);
+        outData.innerHTML = `<div id="latex-content" class="formatted-output">${processedText}</div>`;
+
+        if (window.renderMathInElement) {
+            renderMathInElement(document.getElementById('latex-content'), {
+                delimiters: [
+                    {left: "$$[", right: "]$$", display: true},
+                    {left: "$[", right: "]$", display: false}
+                ],
+                throwOnError: false
+            });
+        } else {
+            console.warn("KaTeX auto-render not available. LaTeX will not be rendered.");
+        }
+    }
+
+    function renderTerminalOutput(sectorStr, node, cluster, frag, contentText) {
+        currentRawText = contentText; 
+
+        outMeta.innerHTML = `
+            <div class="meta-container">
+                <div>// PULLING FRAGMENT DATA...</div>
+                <div><strong>LOCAL COORDS:</strong> N:${node} | C:${cluster} | F:${frag}</div>
+                <div><strong>MACRO-SECTOR:</strong></div>
+                <div id="sector-display" class="sector-box collapsed">${sectorStr}</div>
+                <div class="action-buttons">
+                    <button id="toggle-sector" class="btn-micro">[+] SHOW FULL</button>
+                    <button id="copy-sector" class="btn-micro">[ ] COPY HEX</button>
+                </div>
+            </div>
+        `;
+        
+        document.getElementById('toggle-sector').addEventListener('click', (e) => {
+            const box = document.getElementById('sector-display');
+            box.classList.toggle('collapsed');
+            e.target.innerText = box.classList.contains('collapsed') ? '[+] SHOW FULL' : '[-] COLLAPSE';
+        });
+
+        document.getElementById('copy-sector').addEventListener('click', (e) => {
+            navigator.clipboard.writeText(sectorStr);
+            e.target.innerText = '[V] COPIED!';
+            setTimeout(() => { e.target.innerText = '[ ] COPY HEX'; }, 2000);
+        });
+
+        applyRendering(contentText);
+    }
+
+    init().then(() => {
+        console.log("MIRAI Quantum Engine Initialized!");
+        outData.innerHTML = "// SYSTEM ONLINE. QUANTUM ENGINE READY.";
+        
+        btnBrowse.addEventListener('click', () => {
+            const sector = document.getElementById('inp-sector').value;
+            const node = Number(document.getElementById('inp-node').value) || 1;
+            const cluster = Number(document.getElementById('inp-cluster').value) || 1;
+            const frag = Number(document.getElementById('inp-frag').value) || 1;
+
+            if (!sector) return;
+            outMeta.innerHTML = `CALCULATING BIJECTION FOR SECTOR...`;
+            const resultText = explore_coordinates(sector, node, cluster, frag);
+            renderTerminalOutput(sector, node, cluster, frag, resultText);
+        });
+
+        btnSearch.addEventListener('click', () => {
+            const query = document.getElementById('inp-search').value;
+            if (!query) return;
+
+            outMeta.innerHTML = `SEARCHING DATABANKS FOR EXACT STRING...`;
+            const jsonString = search_database(query);
+            const result = JSON.parse(jsonString);
+
+            if (result.error) {
+                outMeta.innerHTML = `ERROR: INVALID CHARACTERS IN QUERY.`;
+                outData.innerHTML = "";
+            } else {
+                document.getElementById('inp-sector').value = result.sector;
+                document.getElementById('inp-node').value = result.node;
+                document.getElementById('inp-cluster').value = result.cluster;
+                document.getElementById('inp-frag').value = result.frag;
+                
+                renderTerminalOutput(result.sector, result.node, result.cluster, result.frag, result.content);
+            }
+        });
+    }).catch(err => console.error("Critical error:", err));
+</script> 

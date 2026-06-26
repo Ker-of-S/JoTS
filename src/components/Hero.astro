@@ -1,0 +1,68 @@
+---
+// src/components/Hero.astro
+---
+<header id="home" class="hero">
+    <div class="hero-content">
+        <h1>Journal of Terminal Sciences</h1>
+        <p>Preserving knowledge at all scales, in all spaces and times, and all logics.</p>
+        <a href="/publications" class="btn">Explore Latest Issue</a>
+    </div>
+</header>
+
+<style>
+    .hero {
+        background: linear-gradient(rgba(13, 37, 63, 0.85), rgba(13, 37, 63, 0.85)), 
+                    url('/img/BG1.png') center/cover;
+        height: 65vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: white;
+        padding: 0 20px;
+    }
+
+    .hero h1 {
+        font-size: 3.5rem;
+        margin-bottom: 1rem;
+        font-family: 'Georgia', serif;
+    }
+
+    .hero p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        max-width: 700px;
+        margin: 0 auto 2rem auto;
+        color: var(--blue2);
+    }
+
+    .btn {
+        background-color: var(--accent-cyan);
+        color: var(--primary-blue);
+        padding: 0.8rem 2rem;
+        text-decoration: none;
+        font-weight: bold;
+        transition: transform 0.2s, filter 0.3s;
+        display: inline-block;
+    }
+
+    .btn:hover {
+        filter: brightness(0.9);
+        transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+        .hero {
+            padding: 6rem 5% 3rem 5%;
+            min-height: 50vh;
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+        }
+
+        .hero p {
+            font-size: 1.05rem;
+        }
+    }
+</style>

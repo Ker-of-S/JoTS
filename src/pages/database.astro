@@ -1,0 +1,408 @@
+---
+// src/pages/database.astro
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="sys.db_access() // UNIDENTIFIED CONNECTION">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <div class="crt-overlay"></div>
+    
+    <main class="terminal-container">
+        <header class="terminal-header">
+            <h1>[MIRAI] TERMINAL SCIENCES CORE DATABASE v-Iota.6</h1>
+            <p class="status">RAW DATABASE OF THE MACHINE OF INTEGRATED RATIONALITY FOR ABSOLUTE INFERENCE</p>
+            <div class="nav-links"><a href="/">[ Return to Surface ]</a></div>
+        </header>
+
+        <div class="terminal-controls">
+            <div class="control-panel">
+                <h3>[ BROWSE BY COORDINATE ]</h3>
+                <div class="inputs">
+                    <input type="text" id="inp-sector" placeholder="Sector (e.g. 0x4F)" value="0x4F" />
+                    <input type="number" id="inp-node" placeholder="Node (1-4)" min="1" max="4" value="1" />
+                    <input type="number" id="inp-cluster" placeholder="Cluster (1-5)" min="1" max="5" value="1" />
+                    <input type="number" id="inp-frag" placeholder="Fragment (1-32)" min="1" max="32" value="1" />
+                    <button id="btn-browse">EXECUTE // BROWSE</button>
+                </div>
+            </div>
+
+            <div class="control-panel">
+                <h3>[ SEARCH EXACT STRING ]</h3>
+                <div class="inputs">
+                    <input type="text" id="inp-search" placeholder="Enter text to locate in the database..." />
+                    <button id="btn-search">EXECUTE // SEARCH</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="output-wrapper">
+            <div class="output-meta" id="output-meta">
+                AWAITING INPUT...
+            </div>
+            <div class="latex-controls">
+        <div class="syntax-guide">
+            <strong>// SYNTAX GUIDE:</strong><br>
+            INLINE MATH: <span class="accent">$[ ... ]$</span> | 
+            BLOCK MATH: <span class="accent">$$[ ... ]$$</span> | 
+            UNICODE: <span class="accent">_(\u&#123;&num;&num;&num;&num;&#125;_)</span>
+        </div>
+            <button id="btn-toggle-render" class="btn-toggle active">[V] RENDER LATEX</button>
+        </div>
+            <div class="terminal-output" id="terminal-output">
+                // System idle. Please enter coordinates or a search query to pull fragments from the infinite structure.
+            </div>
+        </div>
+    </main>
+</Layout>
+
+<script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.9/purify.min.js"></script>
+
+<script is:inline src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script is:inline src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+<script type="module" is:inline>
+    import init, { explore_coordinates, search_database } from '/wasm/mirai_engine.js';
+
+    let isRenderEnabled = true;
+    let currentRawText = ""; 
+
+    const btnBrowse = document.getElementById('btn-browse');
+    const btnSearch = document.getElementById('btn-search');
+    const btnToggleRender = document.getElementById('btn-toggle-render');
+    const outMeta = document.getElementById('output-meta');
+    const outData = document.getElementById('terminal-output');
+
+    if (btnToggleRender) {
+        btnToggleRender.addEventListener('click', () => {
+            isRenderEnabled = !isRenderEnabled;
+            btnToggleRender.innerText = isRenderEnabled ? '[V] RENDER LATEX' : '[ ] RAW TEXT';
+            btnToggleRender.classList.toggle('active', isRenderEnabled);
+            
+            if (currentRawText) {
+                applyRendering(currentRawText);
+            }
+        });
+    }
+
+    function parseCustomUnicode(text) {
+        return text.replace(/_\(\\u\{([0-9a-fA-F]+)\}_\)/g, (match, hex) => {
+            try {
+                return String.fromCodePoint(parseInt(hex, 16));
+            } catch (e) {
+                return match; 
+            }
+        });
+    }
+
+    function applyRendering(text) {
+        const escapedText = text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        
+        const cleanText = DOMPurify.sanitize(escapedText);
+
+        if (!isRenderEnabled) {
+            outData.innerHTML = `<div class="formatted-output">${cleanText}</div>`;
+            return;
+        }
+
+        let processedText = parseCustomUnicode(cleanText);
+        outData.innerHTML = `<div id="latex-content" class="formatted-output">${processedText}</div>`;
+
+        if (window.renderMathInElement) {
+            renderMathInElement(document.getElementById('latex-content'), {
+                delimiters: [
+                    {left: "$$[", right: "]$$", display: true},
+                    {left: "$[", right: "]$", display: false}
+                ],
+                throwOnError: false
+            });
+        } else {
+            console.warn("KaTeX auto-render not available. LaTeX will not be rendered.");
+        }
+    }
+
+    function renderTerminalOutput(sectorStr, node, cluster, frag, contentText) {
+        currentRawText = contentText; 
+
+        outMeta.innerHTML = `
+            <div class="meta-container">
+                <div>// PULLING FRAGMENT DATA...</div>
+                <div><strong>LOCAL COORDS:</strong> N:${node} | C:${cluster} | F:${frag}</div>
+                <div><strong>MACRO-SECTOR:</strong></div>
+                <div id="sector-display" class="sector-box collapsed">${sectorStr}</div>
+                <div class="action-buttons">
+                    <button id="toggle-sector" class="btn-micro">[+] SHOW FULL</button>
+                    <button id="copy-sector" class="btn-micro">[ ] COPY HEX</button>
+                </div>
+            </div>
+        `;
+        
+        document.getElementById('toggle-sector').addEventListener('click', (e) => {
+            const box = document.getElementById('sector-display');
+            box.classList.toggle('collapsed');
+            e.target.innerText = box.classList.contains('collapsed') ? '[+] SHOW FULL' : '[-] COLLAPSE';
+        });
+
+        document.getElementById('copy-sector').addEventListener('click', (e) => {
+            navigator.clipboard.writeText(sectorStr);
+            e.target.innerText = '[V] COPIED!';
+            setTimeout(() => { e.target.innerText = '[ ] COPY HEX'; }, 2000);
+        });
+
+        applyRendering(contentText);
+    }
+
+    init().then(() => {
+        console.log("MIRAI Quantum Engine Initialized!");
+        outData.innerHTML = "// SYSTEM ONLINE. QUANTUM ENGINE READY.";
+        
+        btnBrowse.addEventListener('click', () => {
+            const sector = document.getElementById('inp-sector').value;
+            const node = Number(document.getElementById('inp-node').value) || 1;
+            const cluster = Number(document.getElementById('inp-cluster').value) || 1;
+            const frag = Number(document.getElementById('inp-frag').value) || 1;
+
+            if (!sector) return;
+            outMeta.innerHTML = `CALCULATING BIJECTION FOR SECTOR...`;
+            const resultText = explore_coordinates(sector, node, cluster, frag);
+            renderTerminalOutput(sector, node, cluster, frag, resultText);
+        });
+
+        btnSearch.addEventListener('click', () => {
+            const query = document.getElementById('inp-search').value;
+            if (!query) return;
+
+            outMeta.innerHTML = `SEARCHING DATABANKS FOR EXACT STRING...`;
+            const jsonString = search_database(query);
+            const result = JSON.parse(jsonString);
+
+            if (result.error) {
+                outMeta.innerHTML = `ERROR: INVALID CHARACTERS IN QUERY.`;
+                outData.innerHTML = "";
+            } else {
+                document.getElementById('inp-sector').value = result.sector;
+                document.getElementById('inp-node').value = result.node;
+                document.getElementById('inp-cluster').value = result.cluster;
+                document.getElementById('inp-frag').value = result.frag;
+                
+                renderTerminalOutput(result.sector, result.node, result.cluster, result.frag, result.content);
+            }
+        });
+    }).catch(err => console.error("Critical error:", err));
+</script>
+
+<style is:global>
+
+    /* LATEX CONTROLS */
+    .latex-controls {
+        background: rgba(0, 255, 0, 0.05);
+        border: 1px dashed var(--accent, #b700ff);
+        padding: 10px 15px;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .syntax-guide {
+        font-family: monospace;
+        font-size: 0.8rem;
+        opacity: 0.9;
+    }
+
+    .btn-toggle {
+        background: transparent;
+        border: 1px solid var(--accent, #b700ff);
+        color: var(--accent, #b700ff);
+        padding: 5px 10px;
+        cursor: pointer;
+        font-family: monospace;
+        font-weight: bold;
+        transition: all 0.2s;
+    }
+
+    .btn-toggle.active {
+        background: var(--accent, #b700ff);
+        color: #000;
+    }
+
+    .formatted-output {
+        white-space: pre-wrap;
+        word-break: break-all;
+    }
+
+/* PAGE STYLES */
+
+    body {
+        margin: 0;
+        background-color: #050505;
+        overflow-x: hidden;
+    }
+
+    .meta-container {
+    margin-bottom: 20px;
+    border-bottom: 1px dashed var(--accent, #b1d7ff);
+    padding-bottom: 15px;
+}
+
+    .sector-box {
+    background: rgba(255, 0, 0, 0.05); 
+    border: 1px solid rgba(255, 0, 0, 0.3);
+    padding: 8px;
+    margin: 10px 0;
+    font-family: monospace;
+    color: var(--accent, #ff0000);
+    word-break: break-all; 
+    transition: all 0.3s ease;
+}
+
+    .sector-box.collapsed {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+    .action-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+    .btn-micro {
+    background: transparent;
+    border: 1px solid currentColor;
+    color: inherit;
+    font-family: inherit;
+    font-size: 0.75rem;
+    cursor: pointer;
+    padding: 3px 8px;
+    text-transform: uppercase;
+}
+
+    .btn-micro:hover {
+    background: var(--accent, #ff0000);
+    color: #000;
+}
+</style>
+
+<style>
+    .crt-overlay {
+        position: fixed;
+        top: 0; left: 0; width: 100vw; height: 100vh;
+        background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+        background-size: 100% 2px, 3px 100%;
+        z-index: 999;
+        pointer-events: none;
+    }
+
+    .terminal-container {
+        font-family: 'Courier New', Courier, monospace;
+        color: #b1d7ff;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+        position: relative;
+        z-index: 10;
+        text-shadow: 0 0 5px rgba(0, 4, 255, 0.5);
+    }
+
+    .terminal-header {
+        border-bottom: 2px dashed #c9e9ff;
+        padding-bottom: 1rem;
+        margin-bottom: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .terminal-header h1 { font-size: 1.5rem; margin: 0; letter-spacing: 2px; }
+    .status { font-size: 0.9rem; opacity: 0.8; margin: 0; }
+    .nav-links a { color: #ffc2c2; text-decoration: none; transition: color 0.3s; font-weight: bold; }
+    .nav-links a:hover { color: #fff; text-shadow: 0 0 10px #fff; }
+
+    .terminal-controls {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .control-panel {
+        border: 1px solid #b1d7ff;
+        padding: 1.5rem;
+        background: rgba(0, 17, 255, 0.05);
+    }
+
+    .control-panel h3 { margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem; }
+
+    .inputs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    input {
+        background: black;
+        border: 1px solid #b1d7ff;
+        color: #94afff;
+        padding: 0.5rem;
+        font-family: 'Courier New', Courier, monospace;
+        outline: none;
+    }
+
+    input:focus { background: rgba(0, 60, 255, 0.1); }
+    
+    #inp-sector { flex: 2; min-width: 100px; }
+    #inp-node, #inp-cluster, #inp-frag { flex: 1; min-width: 60px; }
+    #inp-search { width: 100%; margin-bottom: 0.5rem; }
+
+    button {
+        background: #88c2ff;
+        color: black;
+        border: none;
+        padding: 0.5rem 1rem;
+        font-family: 'Courier New', Courier, monospace;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.2s;
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+
+    button:hover { background: white; color: black; box-shadow: 0 0 15px #ffffff; }
+
+    .output-wrapper {
+        border: 1px solid #b1d7ff;
+        padding: 2rem;
+        background: rgba(0,0,0,0.8);
+        min-height: 400px;
+    }
+
+    .output-meta {
+        font-weight: bold;
+        border-bottom: 1px solid rgba(8, 0, 255, 0.3);
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .accent { color: white; text-shadow: 0 0 5px white; }
+
+    .terminal-output {
+        font-size: 1rem;
+        line-height: 1.6;
+        word-wrap: break-word;
+        white-space: pre-wrap;
+        letter-spacing: 0.05em;
+    }
+
+    :global(mark.highlight) {
+        background-color: #b1d7ff;
+        color: black;
+        font-weight: bold;
+        padding: 0 2px;
+    }
+
+    @media (max-width: 768px) {
+        .terminal-controls { grid-template-columns: 1fr; }
+    }
+</style>

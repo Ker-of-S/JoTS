@@ -1,11 +1,75 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Hero from '../components/Hero.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import Footer from '../components/Footer.astro';
+import { getCollection } from 'astro:content';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const allPublications = await getCollection('publications');
+
+const recentPublications = allPublications.slice(0,3);
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Journal of Terminal Sciences">
+   <Navbar />
+    <Hero />
+
+    <main>
+        <section id="publications" class="publications">
+            <h2>Recent Publications</h2>
+            <div class="grid-container">
+                {
+                    recentPublications.map((pub) => (
+                        <ArticleCard
+                        category={pub.data.category} 
+                        title={pub.data.title} 
+                        authors={pub.data.authors} 
+                        abstract={pub.data.abstract}
+                        id={pub.id}
+                        />
+                    ))
+                }
+            </div>
+        </section>
+    </main>
+
+    <Footer/>
 </Layout>
+
+<style>
+    .publications {
+        padding: 5rem 5%;
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 3rem;
+        font-size: 2.5rem;
+        color: var(--primary-blue);
+        font-family: 'Georgia', serif;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 2.5rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    @media (max-width: 768px) {
+        .publications {
+            padding: 3rem 5%;
+        }
+        
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .grid-container {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+    }
+</style>
