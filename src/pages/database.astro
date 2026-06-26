@@ -188,6 +188,17 @@ import Layout from '../layouts/Layout.astro';
             }
         });
     }).catch(err => console.error("Critical error:", err));
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        try {
+            await init('/wasm/mirai_engine_bg.wasm');
+            
+            console.log("> WELCOME, MIRAI!");
+            
+        } catch (error) {
+            console.error("WebAssembly loading error:", error);
+        }
+    });
 </script>
 
 <style is:global>
