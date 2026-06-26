@@ -1,6 +1,6 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: 'https://github.com/Ker-of-S/JoTS',
-  outDir: '/',
+  site: 'https://astronaut.github.io',
+  output: 'static',
 });
