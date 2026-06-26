@@ -1,6 +1,6 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: 'jots.dpdns.org',
+  site: 'https://github.com/Ker-of-S/JoTS',
   outDir: '/',
 });
