@@ -1,0 +1,15 @@
+{
+  "name": "mirai-engine",
+  "type": "module",
+  "version": "0.1.0",
+  "files": [
+    "mirai_engine_bg.wasm",
+    "mirai_engine.js",
+    "mirai_engine.d.ts"
+  ],
+  "main": "mirai_engine.js",
+  "types": "mirai_engine.d.ts",
+  "sideEffects": [
+    "./snippets/*"
+  ]
+}
