@@ -1,0 +1,309 @@
+---
+// src/pages/ethics.astro
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="Publication Ethics | Journal of Terminal Sciences">
+    <Navbar />
+
+    <header class="ethics-hero">
+        <div class="hero-content">
+            <h1>Publication Ethics</h1>
+            <p>Blah blah blah.</p>
+        </div>
+    </header>
+
+    <main class="guidelines-container">
+        <aside class="sidebar-nav">
+            <nav class="toc">
+                <h3>Table of Contents</h3>
+                <ul>
+                    <li><a href="#First title" class="toc-link">I. First title</a></li>
+                    <li><a href="#Second title" class="toc-link">II. Second title</a></li>
+                    <li><a href="#Third title" class="toc-link">III. Third title</a></li>
+                    <li><a href="#Fourth title" class="toc-link">IV. Fourth title</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-meta">
+                <p><strong>Last Updated:</strong> [insert date]</p>
+            </div>
+        </aside>
+
+        <div class="eth-content">
+            <p>Insert Lorem Ipsum or something like that cfff.</p>
+            <p> </p>
+            <section id="First title" class="eth-section">
+                <h2>I. First title</h2>
+                <div class="content-block">                    
+                    <ul>
+                        <li>Insert list with Lorem Ipsum cfff.</li>
+
+                    </ul>
+                </div>
+            </section>
+
+            <section id="Second title" class="eth-section">
+                <h2>II. Second title</h2>
+                <div class="content-block">
+                    <p><em>Text:</em></p>
+                    <ul>
+                        <li>Text.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="Third title" class="eth-section">
+                <h2>III. Third title</h2>
+                <div class="content-block">
+                    <p><em>Text:</em></p>
+                    
+                    <ul>
+                        <li>Text.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="Fourth title" class="eth-section">
+                <h2>IV. Foruth title</h2>
+                <div class="content-block">
+                    <p><em>Text.</em></p>
+                    
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <Footer />
+</Layout>
+
+<style>
+    .ethics-hero {
+        background-color: var(--primary-blue);
+        padding: 8rem 5% 4rem 5%;
+        border-bottom: 4px solid var(--accent-cyan);
+    }
+
+    .hero-content {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .ethics-hero h1 {
+        color: white;
+        font-family: 'Georgia', serif;
+        font-size: 3rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .ethics-hero p {
+        color: var(--blue2);
+        font-size: 1.1rem;
+    }
+
+    .guidelines-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 4rem 5%;
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        gap: 4rem;
+        align-items: start;
+    }
+
+    .sidebar-nav {
+        position: sticky;
+        top: 6rem;
+        background: white;
+        border: 1px solid var(--border-color, var(--clear1));
+        padding: 2rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    }
+
+    .toc h3 {
+        color: var(--primary-blue);
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+        border-bottom: 2px solid var(--clear1);
+        padding-bottom: 0.5rem;
+    }
+
+    .toc ul {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 2rem 0;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .toc-link {
+        color: var(--gray1);
+        text-decoration: none;
+        font-size: 0.95rem;
+        font-weight: 500;
+        transition: color 0.2s, padding-left 0.2s;
+        display: block;
+        line-height: 1.4;
+    }
+
+    .toc-link:hover, .toc-link.active {
+        color: var(--accent-cyan);
+        padding-left: 5px;
+    }
+
+    .sidebar-meta {
+        border-top: 1px dashed #ccc;
+        padding-top: 1rem;
+        font-size: 0.85rem;
+        color: #888;
+        font-family: 'Courier New', Courier, monospace;
+    }
+
+    .sidebar-meta p {
+        margin-bottom: 0.5rem;
+    }
+
+    .eth-content {
+        background: white;
+        padding: 3rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        border: 1px solid var(--border-color, --clear1);
+    }
+
+    .eth-section {
+        margin-bottom: 4rem;
+        scroll-margin-top: 6rem; 
+    }
+
+    .eth-section:last-of-type {
+        margin-bottom: 3rem;
+    }
+
+    .eth-section h2 {
+        font-family: 'Georgia', serif;
+        color: var(--primary-blue);
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 0.5rem;
+    }
+
+    .content-block {
+        font-size: 1.05rem;
+        color: #444;
+        line-height: 1.8;
+    }
+
+    .content-block p {
+        margin-bottom: 1.5rem;
+    }
+
+    .content-block h4 {
+        color: var(--primary-blue);
+        font-size: 1.2rem;
+        margin: 2rem 0 1rem 0;
+    }
+
+    .content-block ul, .content-block ol {
+        margin-bottom: 1.5rem;
+        padding-left: 1.5rem;
+    }
+
+    .content-block li {
+        margin-bottom: 0.5rem;
+    }
+
+    .warning-box {
+        background-color: rgba(131, 43, 38, 0.05);
+        border-left: 4px solid #ff4d4d;
+        padding: 1.5rem;
+        margin: 2rem 0;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 0.95rem;
+        color: var(--text-main);
+    }
+
+
+    .btn-submit-large {
+        background-color: var(--accent-cyan);
+        color: var(--blue3);
+        padding: 1rem 2rem;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 1.1rem;
+        transition: background-color 0.3s;
+        display: inline-block;
+    }
+
+    .btn-submit-large:hover {
+        background-color: var(--primary-blue);
+        color: white;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 992px) {
+        .guidelines-container {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .sidebar-nav {
+            position: relative;
+            top: 0;
+            padding: 1.5rem;
+        }
+
+        .toc ul {
+            flex-direction: row;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .eth-content {
+            padding: 2rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .ethics-hero {
+            padding: 6rem 5% 2rem 5%;
+        }
+
+        .ethics-hero h1 {
+            font-size: 2.2rem;
+        }
+
+        .eth-section h2 {
+            font-size: 1.6rem;
+        }
+
+        .eth-content {
+            padding: 1.5rem;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const id = entry.target.getAttribute('id');
+                const navLink = document.querySelector(`.toc-link[href="#${id}"]`);
+                
+                if (entry.intersectionRatio > 0) {
+                    document.querySelectorAll('.toc-link').forEach(link => link.classList.remove('active'));
+                    if(navLink) navLink.classList.add('active');
+                }
+            });
+        }, {
+            rootMargin: '-20% 0px -80% 0px'
+        });
+
+        document.querySelectorAll('.eth-section').forEach((section) => {
+            observer.observe(section);
+        });
+    });
+</script>

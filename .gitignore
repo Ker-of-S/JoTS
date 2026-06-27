@@ -39,3 +39,7 @@ desktop.ini
 !.vscode/extensions.json
 *.code-workspace
 .history/
+
+#Rust
+MIRAI-engine/target/
+MIRAI-engine/pkg/
