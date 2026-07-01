@@ -4,13 +4,13 @@ import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 ---
 
-<Layout title="LaTeX Template | Journal of Terminal Sciences">
+<Layout title="Typst Template | Journal of Terminal Sciences">
     <Navbar />
 
     <header class="template-hero">
         <div class="hero-content">
-            <h1>LaTeX Template</h1>
-            <p>Standardized formatting.</p>
+            <h1>Typst Template</h1>
+            <p>Standardized formatting for next-generation typesetting.</p>
         </div>
     </header>
 
@@ -18,9 +18,10 @@ import Footer from '../components/Footer.astro';
         <section class="instructions-panel">
             <div class="info-block">
                 <h3>Usage Instructions</h3>
-                <p>To maintain the typographical and aesthetic standards of the Journal of Terminal Sciences, all manuscripts must be typeset using this LaTeX configuration.</p>
+                <p>To maintain the typographical and aesthetic standards of the Journal of Terminal Sciences, all manuscripts must be typeset using this Typst configuration.</p>
                 <ul>
-                    <li>Copy the code block below and save it as a <code>.tex</code> file on your local machine, or paste it directly into an Overleaf project.</li>
+                    <li>Create the corresponding folder structure (<code>modules/</code>)</li>
+                    <li>Navigate through the tabs below and copy the contents into their respective <code>.typ</code> files.</li>
                     <li>Ensure your final submission is compiled into a PDF document before attaching the link in the <a href="/submit">Submission Portal</a>.</li>
                 </ul>
             </div>
@@ -28,19 +29,48 @@ import Footer from '../components/Footer.astro';
 
         <section class="code-section">
             <div class="terminal-window">
+                <div class="terminal-tabs">
+                    <button class="tab-btn active" data-file="main">main.typ</button>
+                    <button class="tab-btn" data-file="template">template.typ</button>
+                    <button class="tab-btn" data-file="boxes">modules/boxes.typ</button>
+                    <button class="tab-btn" data-file="colors">modules/colors.typ</button>
+                    <button class="tab-btn" data-file="math">modules/math.typ</button>
+                </div>
+
                 <div class="terminal-header">
-                    <div class="terminal-title">jts_template_vIota6.tex</div>
+                    <div class="terminal-title" id="active-filename">main.typ</div>
                     <button id="copyBtn" class="btn-copy">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                         <span>Copy Code</span>
                     </button>
                 </div>
+
                 <div class="terminal-body">
-                    <pre is:raw><code id="latexCode">
-                        
-                    It's empty :c
-                    
-                    </code></pre>
+                    <div id="main" class="code-pane active">
+<pre><code>#import "template.typ": *
+</code></pre>
+                    </div>
+
+                    <div id="template" class="code-pane">
+<pre><code>// template.typ
+</code></pre>
+                    </div>
+
+                    <div id="boxes" class="code-pane">
+<pre><code>// modules/boxes.typ
+</code></pre>
+                    </div>
+
+                    <div id="colors" class="code-pane">
+<pre><code>// modules/colors.typ
+
+</code></pre>
+                    </div>
+
+                    <div id="math" class="code-pane">
+<pre><code>//modules/math.typ
+</code></pre>
+                    </div>
                 </div>
             </div>
         </section>
@@ -87,7 +117,7 @@ import Footer from '../components/Footer.astro';
     .info-block {
         background-color: white;
         padding: 2rem;
-        border: 1px solid var(--border-color, --clear1);
+        border: 1px solid var(--border-color, var(--clear1));
         border-left: 5px solid var(--blue3);
         box-shadow: 0 4px 15px rgba(0,0,0,0.03);
     }
@@ -101,17 +131,15 @@ import Footer from '../components/Footer.astro';
         gap: 0.5rem;
     }
 
-    .info-block p {
-        color: var(--gray1);
+    .info-block p, .info-block ul {
+        color: var(--gray1, #444);
         font-size: 1.05rem;
-        margin-bottom: 1rem;
         line-height: 1.6;
     }
-
+    
     .info-block ul {
-        color: #444;
         padding-left: 1.5rem;
-        line-height: 1.7;
+        margin-top: 1rem;
     }
 
     .info-block li {
@@ -129,7 +157,7 @@ import Footer from '../components/Footer.astro';
     }
 
     code {
-        background-color: var(--bg-color);
+        background-color: var(--bg-color, #f4f4f4);
         padding: 0.2rem 0.4rem;
         font-family: 'Courier New', Courier, monospace;
         font-size: 0.9em;
@@ -141,11 +169,42 @@ import Footer from '../components/Footer.astro';
         background-color: var(--blue3);
         overflow: hidden;
         box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        border: 1px solid var(--text-main);
+        border: 1px solid var(--text-main, #333);
+    }
+
+    .terminal-tabs {
+        display: flex;
+        background-color: #1a1b26;
+        border-bottom: 1px solid #2a2b3d;
+        overflow-x: auto;
+    }
+
+    .tab-btn {
+        background: transparent;
+        color: #888;
+        border: none;
+        padding: 0.8rem 1.5rem;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        border-right: 1px solid #2a2b3d;
+        white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+        background-color: #242533;
+        color: #ccc;
+    }
+
+    .tab-btn.active {
+        background-color: var(--blue3);
+        color: var(--accent-cyan);
+        border-bottom: 2px solid var(--accent-cyan);
     }
 
     .terminal-header {
-        background-color: black;
+        background-color: var(--blue3);
         padding: 1rem 1.5rem;
         display: flex;
         justify-content: space-between;
@@ -154,7 +213,7 @@ import Footer from '../components/Footer.astro';
     }
 
     .terminal-title {
-        color: var(--blue1);
+        color: var(--blue1, #fff);
         font-family: 'Courier New', Courier, monospace;
         font-size: 0.9rem;
     }
@@ -190,6 +249,14 @@ import Footer from '../components/Footer.astro';
         overflow-x: auto;
     }
 
+    .code-pane {
+        display: none;
+    }
+
+    .code-pane.active {
+        display: block;
+    }
+
     .terminal-body::-webkit-scrollbar {
         height: 8px;
     }
@@ -207,7 +274,7 @@ import Footer from '../components/Footer.astro';
         font-family: 'Courier New', Courier, monospace;
         font-size: 0.95rem;
         line-height: 1.5;
-        color: var(--clear1);
+        color: var(--clear1, #e0e0e0);
     }
 
     @media (max-width: 768px) {
@@ -229,9 +296,30 @@ import Footer from '../components/Footer.astro';
 
 <script>
     const setupTerminalUI = () => {
+        const tabs = document.querySelectorAll('.tab-btn');
+        const panes = document.querySelectorAll('.code-pane');
         const copyBtn = document.getElementById('copyBtn');
-        
-        if (!copyBtn) return;
+        const activeFilename = document.getElementById('active-filename');
+
+        if (!copyBtn || tabs.length === 0) return;
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                panes.forEach(p => p.classList.remove('active'));
+                
+                tab.classList.add('active');
+                const targetId = tab.getAttribute('data-file');
+                if(targetId) {
+                    const targetPane = document.getElementById(targetId);
+                    if(targetPane) targetPane.classList.add('active');
+                }
+                
+                if(activeFilename) {
+                    (activeFilename as HTMLElement).innerText = (tab as HTMLElement).innerText;
+                }
+            });
+        });
 
         const newCopyBtn = copyBtn.cloneNode(true) as HTMLElement;
         if (copyBtn.parentNode) {
@@ -240,19 +328,10 @@ import Footer from '../components/Footer.astro';
         
         newCopyBtn.addEventListener('click', async () => {
             try {
-                const codeElement = document.querySelector('.terminal-body code') as HTMLElement;
-                if (!codeElement) {
-                    console.error('Code element not found');
-                    return;
-                }
+                const activePane = document.querySelector('.code-pane.active code') as HTMLElement;
+                if (!activePane) return;
                 
-                const textToCopy = (codeElement.innerText || codeElement.textContent || '').trim();
-                
-                if (!textToCopy) {
-                    alert("Nothing to copy");
-                    return;
-                }
-                
+                const textToCopy = activePane.innerText || activePane.textContent;
                 await navigator.clipboard.writeText(textToCopy);
                 
                 const originalHTML = newCopyBtn.innerHTML;
@@ -275,5 +354,6 @@ import Footer from '../components/Footer.astro';
     };
 
     setupTerminalUI();
+    
     document.addEventListener('astro:after-swap', setupTerminalUI);
 </script>

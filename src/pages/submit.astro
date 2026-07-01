@@ -46,11 +46,23 @@ import Footer from '../components/Footer.astro';
                         <li>Styling: Colors, custom designs, and additional visual elements are completely free, provided they serve the document's purpose and do not compromise data legibility.</li>
                     </ul>
 
+                    <h3>Typst Submissions</h3>
+                    <ul>
+                        <li>Typography and Sizing: The default Typst font and size are preferred. Minor adjustments for visual comfort or specific structural needs are permitted.</li>
+                        <li>Styling: Colors, custom designs, and additional visual elements are completely free, provided they serve the document's purpose and do not compromise data legibility.</li>
+                    </ul>
+
                     <h3>Standard Word Processors (Microsoft Word, Google Docs, etc.)</h3>
                     <ul>
                         <li>Typography: Manuscripts should use IBM Plex Serif, EB Garamond, Lora, Computer Modern, or AMS fonts. We recommend maintaining a single font family throughout the document, unless a distinct environment (such as data logs or code blocks) requires differentiation.</li>
                         <li>Alternative Fonts: If you choose to use a font not listed above, you must verify that it is in the public domain or explicitly licensed for non-commercial use (e.g., Open Font License).</li>
-                        <li>Mathematical Equations: The native equation font provided by your chosen word processor is perfectly acceptable.</li>
+                        <li>Mathematical Equations: It is recommended to install some of the following fonts
+                        <ul>
+                            <li>Latin Modern Math</li>
+                            <li>STIX Two Math</li>
+                            <li>Libertinus Math</li>
+                        </ul>
+                        For Google Docs, the default font is acceptable, but for visual improvements it is recommended to use the "Auto LaTeX equations" extension.</li>
                         <li><b>Font Size</b>
                         <ul>
                             <li>Article Title: 17-18 pt (Regular or Bold)</li>
@@ -69,9 +81,13 @@ import Footer from '../components/Footer.astro';
                 </div>
 
                 <div class="template-action">
-                    <p>To ensure compliance, please use our typesetting environment:</p>
+                    <p>To ensure compliance, please use our typesetting environments:</p>
                     <a href="/latex-template" class="btn-latex">
                         <span class="icon">ΤΕΧ</span> Access Official LaTeX Template
+                    </a>
+                    <p></p>
+                    <a href="/typst-template" class="btn-latex">
+                        <span class="icon">ΤΥP</span> Access Official Typst Template
                     </a>
                     <p><em>Coming soon: proposals on a wiki site.</em></p>
                 </div>
@@ -243,7 +259,7 @@ import Footer from '../components/Footer.astro';
     }
 
     .btn-latex .icon {
-        font-family: 'Times New Roman', Times, serif;
+        font-family: serif;
         font-size: 1.3rem;
         letter-spacing: -1px;
     }
