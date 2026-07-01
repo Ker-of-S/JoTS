@@ -2,6 +2,430 @@
 import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
+
+const mainTypst = `// main.typ
+#import "template.typ": jots-article
+#import "modules/math.typ": *
+#import "modules/boxes.typ": *
+
+#set heading(numbering: "1.")
+
+#show: jots-article.with(
+  title: "Article Title Blah Blah Blah",
+  subtitle: "Subtitle blah blah blah",
+  running-title: "JoTS Template Showcase",
+  authors: (
+    (
+      name: "Author 1 Complete Name", 
+      affiliation: "affiliation", 
+      email: "author@mail.mx"
+    ),
+    (
+      name: "Author 2 Complete Name", 
+      affiliation: "affiliation", 
+      email: "author@mail.mx"
+    ),
+    (
+      name: "Author 3 Complete Name", 
+      affiliation: "affiliation", 
+      email: "author@mail.mx"
+    ),
+    (
+      name: "Author 4 Complete Name", 
+      affiliation: "affiliation", 
+      email: "author@mail.mx"
+    )
+  ),
+  abstract: [#lorem(60)],
+  keywords: ("kw", "kerd", "keyord", "keyword", "yep")
+)
+
+= Section
+
+Welcome to the template showcase. This section demonstrates standard text formatting, such as #hl[highlighted text], #ie, and #eg. #lorem(20) 
+
+#figure(
+  placeholder(width: 80%, height: 100pt, label: "Placeholder cf"),
+  caption: [#lorem(6)]
+)
+
+== Subsection
+#lorem(40)
+
+= Mathematical Environments <math-section>
+
+#lorem(30):
+
+$E[(g(t) - mu)^3] != 0$
+
+#lorem(19)
+
+#defbox("definition title")[
+  #lorem(30)
+]
+
+Custom operators:
+
+$argmax_(x in R^n) ( inner(x, A x) ) / (norm(x)^2)$
+
+= Custom Environments and Callouts
+
+The \`modules/boxes.typ\` file provides a rich set of callout boxes designed for technical and narrative documentation. 
+
+#infobox[
+  *Note:* #lorem(20)
+]
+
+#warningbox[
+  #lorem(20)
+]
+
+#dangerbox[
+  #fix("Write something here") \\
+  #lorem(20)
+]
+
+= Code and Terminal Outputs
+
+#lorem(20). Use the \`termbox\` for shell commands:
+
+#termbox[
+cargo build --target wasm32-unknown-unknown --release
+wasm-bindgen --out-dir ./pkg --target web target/wasm32-unknown-unknown/release/mirai_engine.wasm
+]
+
+#lorem(20). As shown in @math-section, cross-referencing is #lorem(10)
+
+
+#lorem(40)
+
+#figure(
+  caption: [#lorem(30)],
+  \`\`\`python
+  import numpy as np
+  import bpy # Blender Python API
+
+  def generate_orbital(n, l, m):
+      """Calc density prob"""
+      radius = np.linspace(0, 10, 100)
+      # Simplified sim
+      return np.exp(-radius / n) * (radius ** l)\`\`\`
+)
+
+= Long Tables
+
+#lorem(30) @table.
+
+#figure(
+  placement: top,    // Float to top
+  scope: "parent",   // Temp col break
+  caption: [#lorem(20)],
+  table(
+    columns: (1fr, auto, auto, auto),
+    stroke: none,
+    align: (left, center, center, center),
+    
+    table.hline(stroke: 1pt), // \\toprule
+    [*Column 1*], [*Column 2*], [*Column 3*], [*Column 4*],
+    table.hline(stroke: 0.5pt), // \\midrule
+    
+    [row 1], [120.4], [115.2], [$pm 2.4$],
+    [row 2], [45.1], [42.8], [$pm 0.8$],
+    [row 3], [305.9], [290.1], [$pm 15.6$],
+    
+    table.hline(stroke: 1pt)  // \\bottomrule
+  )
+) <table>
+
+= Theorem-like env.
+
+#lorem(20)
+
+#theorem[
+#lorem(20)
+]
+#theorem[
+#lorem(20)
+]
+#definition[
+#lorem(20)
+]
+
+#lemma[
+#lorem(20)
+]
+
+#corollary[
+#lorem(20)
+]
+
+#proposition[
+#lorem(20)
+]
+
+#oraculum[
+#lorem(20)
+]
+
+#lorem(60)
+
+#remark[
+#lorem(20)
+]
+#theorem[
+#lorem(20)
+]
+#definition[
+#lorem(20)
+]
+
+#remark[
+#lorem(20)
+]
+
+#corollary[
+#lorem(20)
+]
+
+#proposition[
+#lorem(20)
+]
+
+#oraculum[
+#lorem(10)
+]`;
+
+const templateTypst = `// template.typ
+#import "modules/colors.typ": *
+
+// Main function
+#let jots-article(
+  title: "",
+  subtitle: none,
+  running-title: "Short Running Title",
+  authors: (),
+  abstract: none,
+  keywords: (),
+  twocolumn: true,
+  body
+) = {
+  
+  // PDF config & metadata
+  set document(title: title, author: authors.map(a => a.name))
+  
+  // Geometry
+  set page(
+    paper: "a4",
+    margin: 24mm,
+    header: context {
+      let i = counter(page).get().first()
+      
+      if i == 1 { return none }
+      
+      if calc.even(i) {
+        grid(columns: (1fr, 1fr), align(left)[#i], align(right)[])
+      } else {
+        grid(columns: (1fr, 1fr), align(left)[], align(right)[#i])
+      }
+    },
+    footer: [
+      #set text(size: 9pt, fill: rgb("B3B3B3"))
+      #align(center)[Journal of Terminal Sciences --- #running-title]
+      #line(length: 100%, stroke: 0.2pt)
+    ]
+  )
+
+  // Typ.
+  set text(font: "New Computer Modern", size: 11pt)
+  show link: set text(fill: link-color)
+
+  // Title style
+  show heading.where(level: 1): it => block(below: 1em)[
+    #set text(fill: primary-blue, size: 14pt, weight: "bold")
+    #it
+    #line(length: 100%, stroke: 0.5pt + primary-blue)
+  ]
+
+  // ===================
+  // TITLEBLOCK
+  // ===================
+  align(center)[
+    #v(1.4cm)
+    #text(fill: luma(120), size: 9pt, style: "italic")["Journal of Terminal Sciences"]
+    
+    #text(fill: primary-blue, size: 18pt, weight: "bold", title)
+    
+    #if subtitle != none [
+      #text(fill: dark-gray, size: 14pt, subtitle)
+    ]
+    
+    #grid(
+      columns: (1fr, 1fr), 
+      row-gutter: 1em,
+      ..authors.map(author => align(center)[
+        *#author.name* \\
+        #text(size: 9pt, style: "italic", author.affiliation) \\
+        #link("mailto:" + author.email)[#text(size: 9pt, author.email)]
+      ])
+    )
+    
+    #line(length: 100%, stroke: 0.4pt)
+    #v(0.4cm)
+    
+    // Abstract y Keywords
+    #if abstract != none [
+      #align(center)[#block(width: 88%)[
+        *#text(fill: primary-blue, "Abstract.")* #abstract
+      ]
+      #v(0.4cm)]
+    ]
+    
+    #if keywords != () [
+      #align(center)[#block(width: 88%)[
+        *#text(fill: primary-blue, "Keywords:")* #emph(keywords.join(", "))
+      ]]
+    ]
+    #v(0.6cm)
+  ]
+
+  show raw.where(block: true): it => block(
+    fill: code-bg,
+    stroke: 0.4pt + luma(180),
+    inset: (x: 10pt, y: 8pt),
+    radius: 2pt,
+    width: 100%,
+    text(size: 9pt, it)
+  )
+  show figure.caption: it => block(align(left)[
+    #text(fill: primary-blue, weight: "bold")[#it.supplement #it.counter.display().]
+    #text(size: 10pt, it.body)
+  ])
+  show figure.where(kind: table): set figure.caption(position: top)
+
+  set text(hyphenate: true)
+  set par(justify: true)
+  
+  if twocolumn {
+    columns(2, gutter: 15pt)[
+      #body
+    ]
+  } else {
+    body
+  }
+}`;
+
+const boxesTypst = `// modules/boxes.typ
+#import "colors.typ": *
+
+// Boxes base
+#let callout-box(title, body, color: primary-blue) = {
+  block(
+    fill: color.lighten(92%),
+    stroke: color,
+    width: 100%,
+    inset: 0pt,
+    radius: 0pt,
+    breakable: true,
+    [
+      #block(
+        fill: color,
+        inset: (x: 6pt, y: 4pt),
+        text(fill: white, weight: "bold", size: 9pt)[#title]
+      )
+      #block(inset: (x: 10pt, y: 6pt), body)
+    ]
+  )
+}
+
+// Boxes
+#let infobox(body) = callout-box("Note", body, color: note-col)
+#let warningbox(body) = callout-box("Warning", body, color: accent-orange)
+#let dangerbox(body) = callout-box("Danger", body, color: danger-col)
+#let defbox(title, body) = callout-box("Definition: " + title, body, color: primary-blue)
+
+// Terminal box
+#let termbox(body) = block(
+  fill: dark-gray,
+  stroke: dark-gray.darken(20%),
+  width: 100%,
+  [
+    #block(inset: (x: 8pt, y: 4pt), text(fill: accent-cyan.lighten(20%), weight: "bold", font: "Fira Code", size: 9pt)[\\$ shell])
+    #block(inset: (x: 10pt, bottom: 8pt, top: 0pt), text(fill: white, font: "Fira Code", size: 9pt, body))
+  ]
+)
+
+// Placeholder
+#let placeholder(width: 100%, height: 150pt, label: "Image Placeholder") = {
+  rect(
+    width: width,
+    height: height,
+    stroke: (paint: luma(150), thickness: 1pt, dash: "dashed"),
+    fill: luma(245),
+    align(center + horizon, text(fill: luma(100), weight: "bold")[#label])
+  )
+}`;
+
+const colorsTypst = `// modules/colors.typ
+#let primary-blue = rgb("041225")
+#let accent-cyan  = rgb("65C7C6")
+#let accent-green = rgb("27AE60")
+#let accent-orange = rgb("E67E22")
+#let accent-red   = rgb("814641")
+#let note-col     = rgb("173F8E")
+#let danger-col   = rgb("8B0000")
+#let light-gray   = rgb("F4F4F4")
+#let dark-gray    = rgb("333333")
+#let code-bg      = rgb("F0F0F0")
+#let link-color   = rgb("071F4E")`;
+
+const mathTypst = `//modules/math.typ
+#import "colors.typ": *
+
+// Math shortcuts (Typst native equivalents)
+#let Prob = math.bb("P")
+#let eps = math.epsilon
+#let inner(a, b) = \$chevron.l a, b chevron.r\$
+#let pm = sym.plus.minus
+
+// Custom operators
+#let diag = math.op("diag")
+#let tr = math.op("tr")
+#let rank = math.op("rank")
+#let argmin = math.op("arg min", limits: true)
+#let argmax = math.op("arg max", limits: true)
+
+// Text macros
+#let ie = emph("i.e.")
+#let eg = emph("e.g.")
+#let etal = emph("et al.")
+
+// Revision tools
+#let hl(content) = text(fill: accent-orange, weight: "bold", content)
+#let fix(content) = text(fill: accent-red, weight: "bold", "[FIX: " + content + "]")
+
+// Thm env.
+#let math-env(title, id, body, is-emph: true) = context {
+  let h-counter = counter(heading).get()
+  
+  let sec-num = if h-counter.len() > 0 { h-counter.first() } else { 0 }
+  
+  let c = counter(id + "-" + str(sec-num))
+  c.step()
+
+  let content = if is-emph { emph(body) } else { body }
+  
+  block(width: 100%, breakable: true, [
+    *#title #sec-num.#c.display().* #content
+  ])
+}
+
+#let definition(body) = math-env("Definition", "m", body, is-emph: false)
+#let theorem(body) = math-env("Theorem", "m", body)
+#let lemma(body) = math-env("Lemma", "m", body)
+#let corollary(body) = math-env("Corollary", "m", body)
+#let proposition(body) = math-env("Proposition", "m", body)
+#let oraculum(body) = math-env("Oraculum", "m", body)
+#let remark(body) = math-env("Remark", "m", body, is-emph: false)`;
 ---
 
 <Layout title="Typst Template | Journal of Terminal Sciences">
@@ -47,29 +471,23 @@ import Footer from '../components/Footer.astro';
 
                 <div class="terminal-body">
                     <div id="main" class="code-pane active">
-<pre><code>#import "template.typ": *
-</code></pre>
+<pre><code2>{ mainTypst }</code2></pre>
                     </div>
 
                     <div id="template" class="code-pane">
-<pre><code>// template.typ
-</code></pre>
+<pre><code2>{ templateTypst }</code2></pre>
                     </div>
 
                     <div id="boxes" class="code-pane">
-<pre><code>// modules/boxes.typ
-</code></pre>
+<pre><code2>{ boxesTypst }</code2></pre>
                     </div>
 
                     <div id="colors" class="code-pane">
-<pre><code>// modules/colors.typ
-
-</code></pre>
+<pre><code2>{ colorsTypst }</code2></pre>
                     </div>
 
                     <div id="math" class="code-pane">
-<pre><code>//modules/math.typ
-</code></pre>
+<pre><code2>{ mathTypst }</code2></pre>
                     </div>
                 </div>
             </div>
@@ -157,12 +575,19 @@ import Footer from '../components/Footer.astro';
     }
 
     code {
-        background-color: var(--bg-color, #f4f4f4);
-        padding: 0.2rem 0.4rem;
+        background-color: var(--bg-color, #e0e0e0);
+        padding: 0;
         font-family: 'Courier New', Courier, monospace;
         font-size: 0.9em;
         color: var(--primary-blue);
-        border: 1px solid #ddd;
+    }
+
+    code2 {
+        background-color: transparent;
+        padding: 0.2rem 0.4rem;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 0.9em;
+        color: var(--clear1);
     }
 
     .terminal-window {
@@ -247,6 +672,7 @@ import Footer from '../components/Footer.astro';
     .terminal-body {
         padding: 1.5rem;
         overflow-x: auto;
+        background-color: var(--blue3);
     }
 
     .code-pane {
@@ -275,6 +701,9 @@ import Footer from '../components/Footer.astro';
         font-size: 0.95rem;
         line-height: 1.5;
         color: var(--clear1, #e0e0e0);
+        white-space: pre;
+        word-spacing: normal;
+        word-break: normal;
     }
 
     @media (max-width: 768px) {
@@ -328,7 +757,7 @@ import Footer from '../components/Footer.astro';
         
         newCopyBtn.addEventListener('click', async () => {
             try {
-                const activePane = document.querySelector('.code-pane.active code') as HTMLElement;
+                const activePane = document.querySelector('.code-pane.active code2') as HTMLElement;
                 if (!activePane) return;
                 
                 const textToCopy = activePane.innerText || activePane.textContent;

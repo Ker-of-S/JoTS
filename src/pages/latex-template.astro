@@ -2,6 +2,9 @@
 import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
+
+const LatexC = `\\documentclass[12pt]{article}}`;
+
 ---
 
 <Layout title="LaTeX Template | Journal of Terminal Sciences">
@@ -36,11 +39,7 @@ import Footer from '../components/Footer.astro';
                     </button>
                 </div>
                 <div class="terminal-body">
-                    <pre is:raw><code id="latexCode">
-                        
-                    It's empty :c
-                    
-                    </code></pre>
+                    <pre><code2 id="latexCode">{ LatexC }</code2></pre>
                 </div>
             </div>
         </section>
@@ -129,12 +128,19 @@ import Footer from '../components/Footer.astro';
     }
 
     code {
-        background-color: var(--bg-color);
+        background-color: var(--bg-color, #e0e0e0);
         padding: 0.2rem 0.4rem;
         font-family: 'Courier New', Courier, monospace;
         font-size: 0.9em;
         color: var(--primary-blue);
-        border: 1px solid #ddd;
+    }
+
+    code2 {
+        background-color: transparent;
+        padding: 0.2rem 0.4rem;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 0.9em;
+        color: var(--clear1);
     }
 
     .terminal-window {
@@ -240,7 +246,7 @@ import Footer from '../components/Footer.astro';
         
         newCopyBtn.addEventListener('click', async () => {
             try {
-                const codeElement = document.querySelector('.terminal-body code') as HTMLElement;
+                const codeElement = document.querySelector('.terminal-body code2') as HTMLElement;
                 if (!codeElement) {
                     console.error('Code element not found');
                     return;
